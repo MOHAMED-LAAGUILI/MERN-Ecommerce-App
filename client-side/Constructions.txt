@@ -1,0 +1,26 @@
+I used Flow byte UI 
+
+to use classes for style import the folowing
+
+<link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"  rel="stylesheet" />
+And include the following javascript file before the end of the body element:
+
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
+to use componenet install the following
+npm install flowbite-react
+
+to install react icons
+npm install react-icons --save
+https://react-icons.github.io/react-icons/search/#q=user%20add
+
+to install react router nessecary in any project 
+npm i react-router-dom
+
+//react helmet?
+This reusable React component will manage all of your changes to the document head.
+Helmet takes plain HTML tags and outputs plain HTML tags. It's dead simple, and React beginner friendly.
+
+npm i react-helmet
+npm i --save-dev @types/react-helmet
+https://www.npmjs.com/package/react-helmet

@@ -1,7 +1,9 @@
 import bcrypt from "bcrypt";
-import User from "../models/userModel.js";
+import UserModel from "../models/userModel.js";
+import JWT from "jsonwebtoken";
+import { comparePassword } from "../helpers/authHelper.js";
 
-const registerUser = async (req, res) => {
+export const registerUserController = async (req, res) => {
   try {
     const { name, email, password, phone } = req.body;
 
@@ -14,7 +16,7 @@ const registerUser = async (req, res) => {
     }
 
     // Check if the user already exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = await UserModel.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
@@ -23,7 +25,7 @@ const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user
-    const user = await User.create({
+    const user = await UserModel.create({
       name,
       email,
       password: hashedPassword,
@@ -37,4 +39,57 @@ const registerUser = async (req, res) => {
   }
 };
 
-export { registerUser };
+
+// Post login
+export const loginUserController = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // validation
+    if (!email || !password) {
+      return res.send({
+        success: false,
+        message: "All fields are required required",
+      });
+    }
+
+    // Check if the user exists
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "User does not exist" });
+    }
+
+    // Check if the password is correct
+    const isPasswordValid = await comparePassword(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: "Invalid password" });
+    }
+
+    // Generate JWT token
+    const token = JWT.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.status(200).json({ message: "Login successful",user:{
+      name:user.name,
+      email:user.email,
+      phone:user.phone,
+      _id:user._id
+    }, token, });
+
+  } catch (error) {
+    console.error(`Error in login user : ${error.message}`.red);
+    res.status(500).json({ message: `Internal Server Error ${error}` });
+  }
+};
+
+
+// Test Controller
+export const testController = async (req, res) => {
+  try {
+    res.send("Protected Routes");
+  } catch (error) {
+    console.error(`Error while testing protected route : ${error.message}`.red);
+    res.send("Error while testing protected route");
+  }
+}
