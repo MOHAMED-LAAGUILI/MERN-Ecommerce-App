@@ -1,0 +1,1 @@
+the file auth.js on context created whene we need to loging using sessions

@@ -24,3 +24,31 @@ Helmet takes plain HTML tags and outputs plain HTML tags. It's dead simple, and 
 npm i react-helmet
 npm i --save-dev @types/react-helmet
 https://www.npmjs.com/package/react-helmet
+
+
+for handling form and its controls
+npm install react-hook-form
+
+
+Installs react-toastify and its dependencies (e.g., react, prop-types, etc.)
+Installs axios and its dependencies (e.g., follow-redirects, ms, etc.)
+Updates package.json with both new dependencies: "axios": "^0.27.2" and "react-toastify": "^9.0.4"
+Axios is a popular choice for making HTTP requests in JavaScript because of its simplicity, flexibility, and robust feature set.
+npm i axios
+
+
+and add an amazing timming toasts
+https://www.npmjs.com/package
+// with timing and and u can see it only in one page a time
+npm i react-toastify
+// works whene action done like registration and leads u to login and the toast will appear
+npm i react-hot-toast
+
+needed whenu get an err en env process
+https://www.youtube.com/watch?v=GG6FI5-GsFk&ab_channel=BugShop
+
+
+
+
+
+

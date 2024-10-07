@@ -4,6 +4,10 @@ import AboutPage from "./pages/AboutPage.jsx";
 import ContactPage from "./pages/ContactPage";
 import PolicyPage from "./pages/PolicyPage.jsx";
 import Page404 from "./pages/Page-404.jsx";
+import Register from "./pages/Auth/Register.jsx";
+import Login from "./pages/Auth/Login.jsx";
+import CartPage from "./pages/CartPage.jsx";
+
 
 export default function App() {
   return (
@@ -13,7 +17,9 @@ export default function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/policy" element={<PolicyPage />} />
-
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route path="*" element={<Page404 />} />
       </Routes>
     

@@ -81,3 +81,17 @@ the jsonwebtoken This package is commonly used for creating and verifying JSON
  Web Tokens (JWTs), which are widely used for authentication and information 
  exchange in web applications.
 npm i jsonwebtoken
+
+a security feature implemented in web browsers prevent malicious scripts from making unauthorized requests on behalf of the user
+npm i cors
+
+allows run server and clinet sides at the same time
+npm i concurrently 
+add and modify the script ithe server side to
+"scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm run dev --prefix ./client-side",
+    "app":"concurrently \"npm run server\" \"npm run client\""
+}
+thene run npm app for runnig both server and client
