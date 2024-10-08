@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, createContext } from "react";
-// for props
 import PropTypes from "prop-types";
+import axios from "axios";
 
 const AuthContext = createContext();
 
@@ -10,17 +10,30 @@ const AuthProvider = ({ children }) => {
     token: "",
   });
 
+  useEffect(() => {
+    const data = localStorage.getItem("auth");
+    if (data) {
+      const parseData = JSON.parse(data);
+      setAuth({
+        user: parseData.user,
+        token: parseData.token,
+      });
+    }
+    axios.defaults.headers.common["Authorization"] = auth?.token; // Set default headers for axios
+  }, [auth.token]); // Update axios header whenever token changes
+
   return (
-
-      <AuthContext.Provider value={[auth, setAuth]}>
-    {children}
+    <AuthContext.Provider value={[auth, setAuth]}>
+      {children}
     </AuthContext.Provider>
-)
-}
+  );
+};
 
- const useAuth = () => useContext(AuthContext);
+// Custom hook
+const useAuth = () => useContext(AuthContext);
 
- export{useAuth ,AuthProvider}
+export { useAuth, AuthProvider };
+
 AuthProvider.propTypes = {
-    children: PropTypes.node.isRequired
-}
+  children: PropTypes.node.isRequired,
+};

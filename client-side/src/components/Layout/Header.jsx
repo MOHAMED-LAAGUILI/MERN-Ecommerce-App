@@ -1,8 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { DarkThemeToggle } from "flowbite-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/auth";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
+  // for the nav drop down
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -22,10 +26,29 @@ export default function Header() {
     };
   }, [dropdownRef]);
 
+  // session statrt
+  const [auth, setAuth] = useAuth();
+
+  // handle logout
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    
+    setAuth({
+      ...auth,
+      user: null,
+      token: null,
+    });
+    localStorage.removeItem("auth");
+   
+    toast.success("Logout Successfully 2");
+    
+      navigate("/login"); 
+    
+  };
   return (
     <nav className="bg-white border-b border-gray-200 dark:bg-gray-900 shadow-lg">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <Link to="/dashboard" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img
             src="./src/assets/images/ecommerceLogo.jpg"
             className="h-10 rounded-full"
@@ -34,7 +57,7 @@ export default function Header() {
           <span className="self-center text-3xl font-extrabold text-gray-900 dark:text-white whitespace-nowrap">
             Ecommerce
           </span>
-        </a>
+        </Link>
 
         <div className="flex items-center md:order-2 space-x-3 rtl:space-x-reverse">
           {/* Profile dropdown */}
@@ -48,27 +71,57 @@ export default function Header() {
             </button>
             {isOpen && (
               <div className="absolute right-0 z-50 mt-2 w-48 bg-white rounded-md shadow-lg dark:bg-gray-800">
-                <Link
-                  to="/login"
-                  onClick={(e) => e.stopPropagation()}
-                  className="block px-4 py-2 text-gray-900 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700"
-                >
-               <i className="uil uil-signin"></i>   Login
-                </Link>
-                <Link
-                  to="/register"
-                  onClick={(e) => e.stopPropagation()}
-                  className="block px-4 py-2 text-gray-900 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700"
-                >
-                  <i className="uil uil-user-plus"></i>  Register
-                </Link>
-                <Link
-                  to="/cart"
-                  onClick={(e) => e.stopPropagation()}
-                  className="block px-4 py-2 text-gray-900 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700"
-                >
-                 <i className="uil uil-shopping-bag"></i>   Cart (0)
-                </Link>
+                {!auth.user ? (
+                  <>
+                    <Link
+                      to="/login"
+                      onClick={(e) => e.stopPropagation()}
+                      className="block px-4 py-2 text-gray-900 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      <i className="uil uil-signin"></i> Login
+                    </Link>
+                    <Link
+                      to="/register"
+                      onClick={(e) => e.stopPropagation()}
+                      className="block px-4 py-2 text-gray-900 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      <i className="uil uil-user-plus"></i> Register
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/profile"
+                      onClick={(e) => e.stopPropagation()}
+                      className="block px-4 py-2 text-gray-900 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      <i className="uil uil-user"></i> Profile
+                    </Link>
+                    <hr />
+                    <Link
+                      to="/dashboard"
+                      onClick={(e) => e.stopPropagation()}
+                      className="block px-4 py-2 text-gray-900 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      <i className="uil uil-table"></i> Dashboard
+                    </Link>
+                    <hr />
+                    <Link
+                      to="/cart"
+                      onClick={(e) => e.stopPropagation()}
+                      className="block px-4 py-2 text-gray-900 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      <i className="uil uil-shopping-bag"></i> Cart (0)
+                    </Link>
+                    <hr />
+                    <Link
+                      onClick={handleLogout}
+                      className="block px-4 py-2 text-gray-900 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      <i className="uil uil-signout"></i> Logout
+                    </Link>
+                  </>
+                )}
               </div>
             )}
           </div>

@@ -28,7 +28,9 @@ export default function Layout({
         <meta name="description" content={description} />
         <meta name="keywords" content={keyword} />
         <meta name="author" content={author} />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    
         <link
           href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"
           rel="stylesheet"

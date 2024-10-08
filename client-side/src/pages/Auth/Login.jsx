@@ -4,11 +4,15 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom"; // Add Link for navigation
 import { useState } from "react";
+import { useAuth } from "../../context/auth.jsx";
+
 
 export default function Login() {
   const navigate = useNavigate();
   const apiUrl = import.meta.env.REACT_APP_API;
   const [loading, setLoading] = useState(false);
+const  [auth ,setAuth] = useAuth();
+
 
   const {
     register,
@@ -22,6 +26,15 @@ export default function Login() {
       const res = await axios.post(`${apiUrl}/api/v1/auth/login`, data);
       if (res && res.data.success) {
         toast.success(res.data && res.data.message);
+        setAuth({
+          ...auth,
+          user: res.data.user,
+          token: res.data.token,
+        })
+
+        localStorage.setItem("auth", JSON.stringify(res.data));
+      
+
         setTimeout(() => {
           navigate("/"); // Redirect to homepage after login
         }, 2000); // Delay of 2 seconds for toast to finish
@@ -58,6 +71,7 @@ export default function Login() {
                 Email
               </label>
               <input
+              autoComplete 
                 type="email"
                 id="email"
                 {...register("email", {
@@ -87,6 +101,7 @@ export default function Login() {
                 Password
               </label>
               <input
+               autoComplete 
                 type="password"
                 id="password"
                 {...register("password", {
