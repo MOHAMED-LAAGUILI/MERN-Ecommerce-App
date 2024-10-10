@@ -32,42 +32,47 @@ export default function Header() {
   // handle logout
   const navigate = useNavigate();
   const handleLogout = () => {
-    
     setAuth({
       ...auth,
       user: null,
       token: null,
     });
     localStorage.removeItem("auth");
-   
-    toast.success("Logout Successfully 2");
-    
-      navigate("/login"); 
-    
+    navigate("/login");
+
+    toast.success("Logout Successfully");
   };
+
   return (
     <nav className="bg-white border-b border-gray-200 dark:bg-gray-900 shadow-lg">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link to="/dashboard" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <Link
+        to={`/dashboard/${
+          auth?.user?.isAdmin == 0 ? "user" : "admin"
+        }`} className="flex items-center space-x-3 rtl:space-x-reverse"
+        >
           <img
-            src="./src/assets/images/ecommerceLogo.jpg"
+            src="/src/assets/images/ecommerceLogo.jpg"
             className="h-10 rounded-full"
             alt="Ecommerce"
           />
           <span className="self-center text-3xl font-extrabold text-gray-900 dark:text-white whitespace-nowrap">
-            Ecommerce
+            Ecommerce 
+
           </span>
         </Link>
-
+        
         <div className="flex items-center md:order-2 space-x-3 rtl:space-x-reverse">
           {/* Profile dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={toggleDropdown}
-              className="flex items-center space-x-2 text-gray-900 dark:text-white"
+              className="font-bold flex items-center space-x-2 text-gray-900 dark:text-white"
             >
-              <span>Profile</span>
-              <i className="uil uil-angle-down"></i>
+              <span>
+                <i className="uil uil-user text-2xl"></i>Profile
+                <i className="uil uil-angle-down"></i>
+              </span>
             </button>
             {isOpen && (
               <div className="absolute right-0 z-50 mt-2 w-48 bg-white rounded-md shadow-lg dark:bg-gray-800">
@@ -80,12 +85,21 @@ export default function Header() {
                     >
                       <i className="uil uil-signin"></i> Login
                     </Link>
+                    <hr />
                     <Link
                       to="/register"
                       onClick={(e) => e.stopPropagation()}
                       className="block px-4 py-2 text-gray-900 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700"
                     >
                       <i className="uil uil-user-plus"></i> Register
+                    </Link>
+                    <hr />
+                    <Link
+                      to="/forgot-password"
+                      onClick={(e) => e.stopPropagation()}
+                      className="block px-4 py-2 text-gray-900 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      <i className="uil uil-key-skeleton"></i> Reset Password
                     </Link>
                   </>
                 ) : (
@@ -98,13 +112,17 @@ export default function Header() {
                       <i className="uil uil-user"></i> Profile
                     </Link>
                     <hr />
+
                     <Link
-                      to="/dashboard"
+                      to={`/dashboard/${
+                        auth.user.isAdmin == 0 ? "user" : "admin"
+                      }`}
                       onClick={(e) => e.stopPropagation()}
                       className="block px-4 py-2 text-gray-900 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700"
                     >
-                      <i className="uil uil-table"></i> Dashboard
+                      <i className="uil uil-comparison"></i>{ auth.user.isAdmin == 0 ? " User" : " Admin"} Dashboard
                     </Link>
+
                     <hr />
                     <Link
                       to="/cart"
@@ -116,6 +134,7 @@ export default function Header() {
                     <hr />
                     <Link
                       onClick={handleLogout}
+                      to="/login"
                       className="block px-4 py-2 text-gray-900 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700"
                     >
                       <i className="uil uil-signout"></i> Logout
@@ -126,6 +145,7 @@ export default function Header() {
             )}
           </div>
           {/* Theme toggle button */}
+
           <DarkThemeToggle className="mx-2" />
         </div>
 

@@ -3,9 +3,11 @@ import {
   registerUserController,
   testController,
   loginUserController,
-} from "../controllers/authController.js";
+  forgotPasswordController
+} from "./../controllers/authController.js";
 
 import {requireSignin, isAdmin}  from '../middlewares/authMiddleware.js';
+
 
 
 
@@ -18,12 +20,12 @@ router.post("/register", registerUserController);
 //Login
 router.post("/login", loginUserController);
 
+//Forgot password
+router.post('/forgot-password',forgotPasswordController)
+
+
 // test route
 router.get("/test", requireSignin, isAdmin, testController);
 
-// protected route auuth
-router.get("/user-auth", requireSignin, (req, res) => {
-  res.status(200).send({ok:true});
-});
 
 export default router;

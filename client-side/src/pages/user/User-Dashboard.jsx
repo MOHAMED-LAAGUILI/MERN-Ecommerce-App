@@ -2,7 +2,7 @@ import Layout from "../../components/Layout/Layout";
 import Spinner from "../../components/Spinner";
 import { useAuth } from "../../context/auth";
 
-export default function DashboardPage() {
+export default function UserDashboardPage() {
   // Get the authentication state from context
   const [auth] = useAuth();
 

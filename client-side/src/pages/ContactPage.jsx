@@ -3,7 +3,7 @@ import Layout from "../components/Layout/Layout";
 export default function ContactPage() {
   return (
     <Layout title={'Contact Us'}>
-      <div className="mx-auto p-4 pt-6 md:p-6 lg:p-12 xl:p-24 bg-white  dark:bg-gray-900 dark:text-white" style={{ minHeight: "82vh"}}>
+      <div className="mx-auto p-4 pt-6 md:p-6 lg:p-12 xl:p-24 bg-white  dark:bg-gray-800 dark:text-white transition-colors duration-500" style={{ minHeight: "82vh"}}>
         <h1 className="text-4xl font-extrabold mb-6 text-gray-900 text-center dark:text-white">
           Get in Touch
         </h1>

@@ -7,9 +7,15 @@ const Home = () => {
   const [auth] = useAuth();
 
   return (
-    <Layout title={"Home"}>
+    <Layout title={"Home"} >
+      <div className={"dark:text-white"}>
       <h1>Home Page</h1>
-      <pre>{JSON.stringify(auth, null, 4)}</pre>
+        <pre>
+        {JSON.stringify(auth, null, 4)}
+
+        </pre>
+        
+        </div>
     </Layout>
   );
 };

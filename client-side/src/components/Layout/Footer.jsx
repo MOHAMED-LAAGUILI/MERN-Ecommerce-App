@@ -6,7 +6,19 @@ export default function Footer() {
       <div className="max-w-screen-xl mx-auto p-6">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="text-center md:text-left">
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Ecommerce</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
+              
+            <Link to="/dashboard" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <img
+            src="/src/assets/images/ecommerceLogo.jpg"
+            className="h-10 rounded-full"
+            alt="Ecommerce"
+          />
+          <span className="self-center text-3xl font-extrabold text-gray-900 dark:text-white whitespace-nowrap">
+            Ecommerce
+          </span>
+        </Link>
+            </h2>
             <p className="text-gray-600 dark:text-gray-400">
               © {new Date().getFullYear()} Ecommerce. All rights reserved.
             </p>

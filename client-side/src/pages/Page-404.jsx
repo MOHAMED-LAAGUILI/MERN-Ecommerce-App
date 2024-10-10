@@ -3,10 +3,10 @@ import Layout from "../components/Layout/Layout";
 
 export default function Page404() {
   return (
-    <Layout title={'404 | Not Found'}>
-      <div className="h-screen w-screen bg-white flex items-center">
+    <Layout title={'404 | Not Found'} >
+      <div className="dark:bg-gray-800  bg-white flex items-center" style={{ minHeight: "79.5vh" }}>
         <div className="relative max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-5 text-gray-700">
-          <div className="w-full lg:w-1/2 mx-8">
+          <div className="w-full lg:w-1/2 mx-8 dark:text-white">
             <div className="text-7xl text-indigo-600 font-extrabold mb-8">404</div>
             <p className="text-2xl md:text-3xl font-light leading-normal mb-8">
               Sorry, we couldnt find the page you are looking for.
