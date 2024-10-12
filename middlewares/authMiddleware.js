@@ -17,17 +17,17 @@ export const requireSignin = async (req, res, next) => {
 };
 
 //admin access
-export const isAdmin = async (req, res, next) => {
+export const CheckAdmin = async (req, res, next) => {
   try {
-    const user = await userModel.findById(req.user._id);
+   // const user = await userModel.findById(req.user._id);
     // const decode = JWT.verify(req.headers.authorization, process.env.JWT_SECRET)
-    if (user.role !== 1) {
-      return res.status(401).send({ error: "Admin resource. Access denied" });
+    if (req.user.isAdmin !== 1) {
+      return res.status(401).send({ success:false, message:"⚠️UnAuthorized ‼️ this is an Admin resource.⛔ Access denied ❌" });
     } else {
       next();
     }
   } catch (error) {
     console.error(error);
-    res.status(401).send({ error: "Admin resource. Access denied" });
+    res.status(401).send({ success:false, error: `Middleware isAdmin Catch Err : ${error}` });
   }
 };

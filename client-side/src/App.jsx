@@ -14,19 +14,16 @@ import AdminDashboardPage from "./pages/admin/admin-dashboard.jsx";
 import CreateProduct from "./pages/admin/CreateProduct.jsx";
 import CreateCategory from "./pages/admin/CreateCategory.jsx";
 import Users from "./pages/admin/Users.jsx";
-
+import "./index.css";
 export default function App() {
   return (
     <Routes>
       {/* USER */}
       <Route path="/dashboard/user" element={<UserDashboardPage />} />
-      <Route path="/dashboard/user/orders" element={<UserDashboardPage />} />
-      <Route path="/dashboard/user/cart" element={<CartPage />} />
-      <Route path="/dashboard/user/wishlist" element={<CartPage />} />
       {/* Admin */}
       <Route path="/dashboard/admin" element={<AdminDashboardPage />} />
-      <Route path="/dashboard/admin/create-products" element={<CreateProduct />} />
       <Route path="/dashboard/admin/create-categories" element={<CreateCategory />} />
+      <Route path="/dashboard/admin/create-products" element={<CreateProduct />} />
       <Route path="/dashboard/admin/users" element={<Users />} />
       {/* Common Pages */}
       <Route path="/" element={<HomePage />} />
@@ -34,6 +31,7 @@ export default function App() {
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/policy" element={<PolicyPage />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/cart" element={<CartPage />} /> 
       {/* Authantication */}
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />

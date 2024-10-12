@@ -18,6 +18,7 @@ export const registerUserController = async (req, res) => {
       city,
       state,
       zip,
+      isAdmin
     } = req.body;
 
     // Check if the user already exists
@@ -42,6 +43,7 @@ export const registerUserController = async (req, res) => {
       city,
       state,
       zip,
+      isAdmin
     });
 
     res
@@ -77,13 +79,13 @@ export const loginUserController = async (req, res) => {
     }
 
     // Generate JWT token
-    const token = JWT.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    const token = JWT.sign({ userId: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
 
     res.status(200).json({
       success: true,
-      message: "Login successful",
+      message: "Login successfully",
       user: {
         username: user.username,
         email: user.email,

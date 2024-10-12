@@ -1,0 +1,56 @@
+animations site that provide animated svg/json
+https://useanimations.com/#explore
+
+-------Installation
+npm install @lottiefiles/dotlottie-react
+
+
+----ways to Implement 
+--1--
+
+-------to convert the downloaded js into a lottie file
+https://lottiefiles.com/tools/lottie-to-dotlottie
+
+-------or svg to gif/mov/mp4/webm
+https://lottiefiles.com/svg-to-lottie
+
+
+-------Basic Usage
+
+import React from 'react';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+
+const App = () => {
+  return (
+    <DotLottieReact
+      src="path/to/animation.lottie"
+      loop
+      autoplay
+    />
+  );
+};
+
+
+--2--
+// imports of the downloaded json animated icons files
+
+import Lottie from "react-lottie";
+import homeAnimation from "/src/assets/lottie/Home.json";
+import userProfileAnimation from "/src/assets/lottie/Profile.json";
+import contactAnimation from "/src/assets/lottie/Contact.json";
+import aboutAnimation from "/src/assets/lottie/About.json";
+
+
+-------add the following animation func
+
+// Lottie options for animated icons
+  const lottieOptions = (animationData) => ({
+    loop: true,
+    autoplay: true,
+    animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  });
+
+   <Lottie options={lottieOptions(userProfileAnimation)} height={40} width={40} />

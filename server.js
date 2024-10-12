@@ -3,9 +3,9 @@ import colors from 'colors';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import connectDB from './config/db.js';
-import authRoute from './routes/authRoutes.js';
 import cors from 'cors';
-
+import authRoute from './routes/authRoutes.js';
+import categoryRoute from './routes/categoryRoutes.js' 
 
 
 
@@ -25,6 +25,7 @@ app.use(morgan('dev'));
 
 // Routes
 app.use('/api/v1/auth', authRoute);
+app.use('/api/v1/category', categoryRoute)
 
 // rest API
 app.get('/', (req, res) => res.send('Please set to productiond'));

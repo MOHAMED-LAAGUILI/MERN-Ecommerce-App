@@ -6,7 +6,7 @@ import {
   forgotPasswordController
 } from "./../controllers/authController.js";
 
-import {requireSignin, isAdmin}  from '../middlewares/authMiddleware.js';
+import {requireSignin, CheckAdmin}  from '../middlewares/authMiddleware.js';
 
 
 
@@ -25,7 +25,7 @@ router.post('/forgot-password',forgotPasswordController)
 
 
 // test route
-router.get("/test", requireSignin, isAdmin, testController);
+router.get("/test", requireSignin, CheckAdmin, testController);
 
 
 export default router;

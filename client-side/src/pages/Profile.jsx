@@ -23,9 +23,13 @@ export default function Profile() {
             <h1 className="text-4xl font-extrabold mb-2 text-gray-900 dark:text-white">
               {auth?.user?.username}
             </h1>
-            {displayRole(auth?.user?.isAdmin)}
+           <span className={"dark:text-white"}> 
+            Account Type : {displayRole(auth?.user?.isAdmin)} 
+            <br />
+            UID : {auth?.user?._id}
+            </span> 
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
-              UID: {auth?.user?._id}
+             
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-4">

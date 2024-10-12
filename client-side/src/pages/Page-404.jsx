@@ -1,30 +1,39 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 export default function Page404() {
   return (
-    <Layout title={'404 | Not Found'} >
-      <div className="dark:bg-gray-800  bg-white flex items-center" style={{ minHeight: "79.5vh" }}>
-        <div className="relative max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-5 text-gray-700">
-          <div className="w-full lg:w-1/2 mx-8 dark:text-white">
-            <div className="text-7xl text-indigo-600 font-extrabold mb-8">404</div>
-            <p className="text-2xl md:text-3xl font-light leading-normal mb-8">
-              Sorry, we couldnt find the page you are looking for.
-            </p>
-            <Link 
-              to="/" 
-              className="px-5 inline py-3 text-sm font-medium leading-5 shadow-md text-white transition-all duration-400 border border-transparent rounded-md focus:outline-none bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800"
-            >
-              Back to Homepage
-            </Link>
+    <Layout title={'404 | Not Found'}>
+      <div className="flex items-center justify-center bg-gradient-to-br from-indigo-600 to-purple-500 text-white pt-10" style={{  }}>
+        <div className="text-center max-w-lg mx-auto p-5">
+          
+          {/* Lottie Animation */}
+          <div className="w-full flex justify-center mb-8">
+            <div className="max-w-xs w-full">
+              <DotLottieReact
+                src="/src/assets/lottie/404.lottie"
+                loop
+                autoplay
+              />
+            </div>
           </div>
-          <div className="w-full lg:w-1/2 flex justify-center mt-8 lg:mt-0">
-            <img 
-              src="https://user-images.githubusercontent.com/43953425/166269493-acd08ccb-4df3-4474-95c7-ad1034d3c070.svg" 
-              alt="Page Not Found" 
-              className="max-w-xs"
-            />
-          </div>
+
+          {/* 404 Heading */}
+          <h1 className="text-8xl font-extrabold mb-4 text-gray-600 dark:text-gray-300">404</h1>
+          
+          {/* Error Message */}
+          <p className="text-2xl font-light mb-6 text-gray-600 dark:text-gray-300">
+            Oops! The page youre looking for doesnt exist.
+          </p>
+
+          {/* Back to Homepage Button */}
+          <Link
+            to="/"
+            className="inline-block px-8 py-4 text-lg font-medium bg-indigo-700 hover:bg-indigo-800 transition-colors rounded-full shadow-lg"
+          >
+            Back to Homepage
+          </Link>
         </div>
       </div>
     </Layout>

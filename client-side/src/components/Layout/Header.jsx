@@ -29,19 +29,29 @@ export default function Header() {
   // session statrt
   const [auth, setAuth] = useAuth();
 
-  // handle logout
-  const navigate = useNavigate();
-  const handleLogout = () => {
+
+// handle logout
+const LOGIN_PATH = "/login";
+const navigate = useNavigate();
+const handleLogout = () => {
+  try {
     setAuth({
       ...auth,
       user: null,
       token: null,
     });
     localStorage.removeItem("auth");
-    navigate("/login");
-
-    toast.success("Logout Successfully");
-  };
+    
+    // Add a 2-second delay before navigating to the login page
+    setTimeout(() => {
+      toast.success("Logout Successfully");
+      navigate(LOGIN_PATH);
+    }, 2000);
+  } catch (error) {
+    console.error("Error logging out:", error);
+    toast.error("Failed to logout");
+  }
+};
 
   return (
     <nav className="bg-white border-b border-gray-200 dark:bg-gray-900 shadow-lg">
