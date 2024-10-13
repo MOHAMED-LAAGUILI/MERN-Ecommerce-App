@@ -2,6 +2,7 @@
 https://developers.lottiefiles.com/docs/dotlottie-player/dotlottie-react/
 
 -------To download lottie file original svgs and json
+https://lottiefiles.com/featured-free-animations
 https://finsweet.com/lottieflow
 https://finsweet.com/lottieflow/explore
 https://useanimations.com/#explore
@@ -59,3 +60,8 @@ import aboutAnimation from "/src/assets/lottie/About.json";
   });
 
    <Lottie options={lottieOptions(userProfileAnimation)} height={40} width={40} />
+
+
+--3--
+or just inculde the iframe wich change from one to another
+<iframe src="https://lottie.host/embed/c8540487-c9f2-4cc2-994f-683966568593/tQA9IsMan3.json"></iframe>

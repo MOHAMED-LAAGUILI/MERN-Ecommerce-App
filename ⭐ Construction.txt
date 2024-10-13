@@ -104,3 +104,6 @@ Slugify Examples
 slugify('я люблю единорогов'); // ya-lyublyu-edinorogov
 slugify('BAR and baz', {separator: '_'}); // bar_and_baz
 slugify('BAR and baz', {separator: ''}); // barandbaz
+
+npm i express-formidable
+is a node js module that support and handle form submiting images/ multipart files

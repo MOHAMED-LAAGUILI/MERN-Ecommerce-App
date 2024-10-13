@@ -6,7 +6,7 @@ import connectDB from './config/db.js';
 import cors from 'cors';
 import authRoute from './routes/authRoutes.js';
 import categoryRoute from './routes/categoryRoutes.js' 
-
+import productRoute from './routes/productRoutes.js';
 
 
 // configure .env
@@ -26,6 +26,8 @@ app.use(morgan('dev'));
 // Routes
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/category', categoryRoute)
+app.use('/api/v1/product', productRoute)
+
 
 // rest API
 app.get('/', (req, res) => res.send('Please set to productiond'));
@@ -33,5 +35,4 @@ app.get('/', (req, res) => res.send('Please set to productiond'));
 // PORT
 const port = process.env.PORT || 8080;
 
-app.listen(port, () => console.log(`
-    Server started on port ${port} and mode ${process.env.DEV_MODE} at http://localhost:${port}`.bgWhite.black));
+app.listen(port, () => console.log(`Server started on mode ${process.env.DEV_MODE} at http://localhost:${port}`.bgGreen.black.bold));

@@ -13,4 +13,4 @@ slug:{
 },
    });
 
-export default mongoose.model("categories", categorySchema);
+export default mongoose.model("category", categorySchema);
