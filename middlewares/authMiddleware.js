@@ -27,6 +27,6 @@ export const CheckAdmin = async (req, res, next) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(401).send({ success:false, error: `Middleware isAdmin Catch Err : ${error}` });
+    res.status(401).send({ success:false, error: `Middleware CheckAdmin Catch Err : ${error}` });
   }
 };

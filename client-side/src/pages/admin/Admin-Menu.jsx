@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function AdminMenu() {
   return (
-    <div className="bg-gradient-to-b from-purple-800 to-purple-900 text-gray-100 rounded-xl p-6 space-y-6 shadow-sm">
+    <div className="dark:text-gray-100 bg-gradient-to-b from-purple-800 to-purple-900 text-gray-100 rounded-xl p-6 space-y-6 shadow-sm">
       <h2 className="text-3xl font-semibold flex items-center mb-6">
         <i className="uil uil-dashboard mr-3 text-3xl"></i> Admin Panel
       </h2>

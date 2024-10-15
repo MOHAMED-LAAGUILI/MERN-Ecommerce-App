@@ -7,6 +7,7 @@ export default defineConfig({
 
   envPrefix:"REACT_APP_",
   plugins: [react(),
-    envCompatible()
+    envCompatible(),
+    
   ],
 })
