@@ -219,11 +219,11 @@ const CreateCategory = () => {
 
   return (
     <Layout title={"Dashboard - Create Category"}>
-      <div className=" container dark:text-white flex flex-col md:flex-row bg-gradient-to-b from-gray-900 to-gray-800 min-h-screen text-gray-300 text-gray-800"  style={{ minHeight: "79.5vh" }} >
+      <div className="flex container dark:text-white flex flex-col md:flex-row bg-gradient-to-b from-gray-900 to-gray-800 min-h-screen text-gray-300 text-gray-800"  style={{ minHeight: "79.5vh" }} >
         <div className="md:w-2/4 lg:2/4 sm:4/4">
           <AdminMenu />
         </div>
-        <div className="md:w-2/4 lg:2/4 p-4 pt-6 md:p-6 lg:p-12">
+        <div className="container md:w-2/4 lg:2/4 p-4 pt-6 md:p-6 lg:p-12">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Manage Categories
           </h1>

@@ -4,11 +4,10 @@ import AdminMenu from "./Admin-Menu";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { Select } from "antd";
-import { useNavigate } from "react-router-dom";
+
 const { Option } = Select;
 
 const CreateProduct = () => {
-  const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -17,165 +16,195 @@ const CreateProduct = () => {
   const [quantity, setQuantity] = useState("");
   const [shipping, setShipping] = useState("");
   const [photo, setPhoto] = useState("");
+  const [loading, setLoading] = useState(false);
   const apiUrl = import.meta.env.REACT_APP_API;
+  const [photoPreview, setPhotoPreview] = useState(null);
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    setPhoto(file);
+    if (file) {
+      setPhotoPreview(URL.createObjectURL(file));
+    } else {
+      setPhotoPreview(null);
+    }
+  };
 
   // Get all categories
-  const getAllCategory = async () => {
+  const getCategories = async () => {
     try {
-      const { data } = await axios.get(`${apiUrl}/api/v1/category/all-categories`);
-      if (data?.success) {
-        setCategories(data.category); // Store fetched categories in state
+      const response = await axios.get(`${apiUrl}/api/v1/category/all-categories`);
+      if (response.data.success && Array.isArray(response.data.categories)) {
+        setCategories(response.data.categories);
+      } else {
+        console.error("Invalid categories data:", response.data);
+        setCategories([]);
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong in getting categories");
+      console.error("Error fetching categories:", error);
+      setCategories([]);
     }
   };
 
   useEffect(() => {
-    getAllCategory();
+    getCategories();
   }, []);
 
-  // Create product function
-  const handleCreate = async (e) => {
+  const createProduct = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      const productData = new FormData();
-      productData.append("name", name);
-      productData.append("description", description);
-      productData.append("price", price);
-      productData.append("quantity", quantity);
-      productData.append("photo", photo);
-      productData.append("category", category);
+      // Fill empty fields with default values
+      const filledName = name || "Unnamed Product";
+      const filledDescription = description || "No description provided.";
+      const filledPrice = price || 0;
+      const filledQuantity = quantity || 1;
+
+      if (!filledName || !filledDescription || !filledPrice || !category || !filledQuantity) {
+        toast.error("Please fill all required fields");
+        return;
+      }
+      const formData = new FormData();
+      formData.append("name", filledName);
+      formData.append("slug", filledName.replace('-', '').toLowerCase());
+      formData.append("description", filledDescription);
+      formData.append("price", filledPrice);
+      formData.append("category", category);
+      formData.append("quantity", filledQuantity);
+      if (shipping) formData.append("shipping", shipping);
+      if (photo) formData.append("image", photo);
       
-      const { data } = await axios.post("/api/v1/product/create-product", productData);
-      if (data?.success) {
-        toast.success("Product Created Successfully");
-        // Optionally reset the form or navigate to another page
-        resetForm();
+      const response = await axios.post(`${apiUrl}/api/v1/product/create-product`, formData);
+      if (response.data.success) {
+        toast.success(`Product ${filledName} created successfully!`);
+        // Reset form fields after successful creation
+        setName("");
+        setDescription("");
+        setPrice("");
+        setCategory("");
+        setQuantity("");
+        setShipping("");
+        setPhoto("");
+        setPhotoPreview(null);
       } else {
-        toast.error(data?.message);
+        toast.error(response.data.message || "Failed to create product");
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
+      console.error("Error creating product:", error);
+      toast.error(error.response?.data?.message || "Failed to create product");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const resetForm = () => {
-    setName("");
-    setDescription("");
-    setPrice("");
-    setQuantity("");
-    setShipping("");
-    setPhoto("");
-    setCategory("");
-  };
-
   return (
-    <Layout title={"Dashboard - Create Product"}>
-      <div className="container">
-        <div className="flex">
-          <div className="md:w-1/4">
-            <AdminMenu />
-          </div>
-          <div className="md:w-3/4">
-            <h1 className="text-2xl font-bold mb-4">Create Product</h1>
-            <form className="bg-white p-6 rounded shadow-md">
-              <div className="mb-4">
-                <Select
-                  bordered={false}
-                  placeholder="Select a category"
-                  size="large"
-                  showSearch
-                  className="w-full mb-4"
-                  onChange={setCategory}
-                >
-                  {categories?.map((c) => (
-                    <Option key={c._id} value={c._id}>
-                      {c.name} {/* Displaying category name */}
-                    </Option>
-                  ))}
-                </Select>
-              </div>
-              <div className="mb-4">
-                <label className="block mb-2 text-sm font-medium text-gray-700">
-                  Upload Photo
-                </label>
-                <label className="flex items-center justify-center w-full bg-gray-200 hover:bg-gray-300 text-gray-700 border border-gray-300 rounded py-2 cursor-pointer">
-                  {photo ? photo.name : "Choose File"}
-                  <input
-                    type="file"
-                    name="photo"
-                    accept="image/*"
-                    onChange={(e) => setPhoto(e.target.files[0])}
-                    hidden
-                  />
-                </label>
-                {photo && (
-                  <div className="mt-2 text-center">
-                    <img
-                      src={URL.createObjectURL(photo)}
-                      alt="product_photo"
-                      height={"100px"}
-                      className="rounded shadow-lg"
-                    />
-                  </div>
-                )}
-              </div>
-              <div className="mb-4">
+    <Layout>
+      <div className={"flex container"}>
+        <div className={"md:1/4"}>
+          <AdminMenu />
+        </div>
+        <div className={"md:3/4 w-full"}>
+          <div className="container mx-auto px-4 py-8">
+            <h1 className="text-3xl font-bold mb-6">Create Product</h1>
+            <form onSubmit={createProduct} className="space-y-6">
+              {/* Form fields (Name, Description, Price, Category, Quantity, Shipping, Photo) */}
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name:</label>
                 <input
                   type="text"
+                  id="name"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   value={name}
-                  placeholder="Product Name"
-                  className="form-input w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-indigo-200"
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
-              <div className="mb-4">
+              <div>
+                <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description:</label>
                 <textarea
+                  id="description"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   value={description}
-                  placeholder="Product Description"
-                  className="form-textarea w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-indigo-200"
                   onChange={(e) => setDescription(e.target.value)}
+                  rows="3"
                 />
               </div>
-              <div className="mb-4">
+              <div>
+                <label htmlFor="price" className="block text-sm font-medium text-gray-700">Price:</label>
                 <input
                   type="number"
+                  id="price"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   value={price}
-                  placeholder="Product Price"
-                  className="form-input w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-indigo-200"
                   onChange={(e) => setPrice(e.target.value)}
                 />
               </div>
-              <div className="mb-4">
+              <div>
+                <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category:</label>
+                <Select
+                  id="category"
+                  value={category}
+                  onChange={(value) => setCategory(value)}
+                  placeholder="Select a category"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                >
+                  {Array.isArray(categories) && categories.length > 0 ? (
+                    categories.map((cat) => (
+                      <Option key={cat._id} value={cat._id}>
+                        {cat.name}
+                      </Option>
+                    ))
+                  ) : (
+                    <Option disabled>No categories available</Option>
+                  )}
+                </Select>
+              </div>
+              <div>
+                <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">Quantity:</label>
                 <input
                   type="number"
+                  id="quantity"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   value={quantity}
-                  placeholder="Product Quantity"
-                  className="form-input w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-indigo-200"
                   onChange={(e) => setQuantity(e.target.value)}
                 />
               </div>
-              <div className="mb-4">
-                <Select
-                  bordered={false}
-                  placeholder="Select Shipping"
-                  size="large"
-                  showSearch
-                  className="w-full mb-4"
-                  onChange={setShipping}
+              <div>
+                <label htmlFor="shipping" className="block text-sm font-medium text-gray-700">Shipping:</label>
+                <select
+                  id="shipping"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  value={shipping}
+                  onChange={(e) => setShipping(e.target.value === 'true')}
                 >
-                  <Option value="0">No</Option>
-                  <Option value="1">Yes</Option>
-                </Select>
+                  <option value="true">Yes</option>
+                  <option value="false">No</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="photo" className="block text-sm font-medium text-gray-700">Photo:</label>
+                <input
+                  type="file"
+                  id="photo"
+                  className="mt-1 block w-full text-sm text-gray-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-indigo-50 file:text-indigo-700
+                    hover:file:bg-indigo-100"
+                  onChange={handlePhotoChange}
+                />
+                {photoPreview && (
+                  <div className="mt-2">
+                    <img src={photoPreview} alt="Product preview" className="max-w-xs h-auto rounded-lg shadow-lg" />
+                  </div>
+                )}
               </div>
               <button
-                className="w-full bg-indigo-600 text-white font-bold py-2 rounded hover:bg-indigo-700 transition duration-200"
-                onClick={handleCreate}
+                type="submit"
+                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                disabled={loading}
               >
-                CREATE PRODUCT
+                {loading ? "Creating..." : "Create Product"}
               </button>
             </form>
           </div>
