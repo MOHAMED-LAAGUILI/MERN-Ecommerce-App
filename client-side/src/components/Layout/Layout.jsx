@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
-import { Toaster } from "react-hot-toast";
 
 
 // Components
-import Footer from "./Footer";
 import Header from "./Header";
+import { Toaster } from "react-hot-toast";
+import Footer from "./Footer";
 
 export default function Layout({
   children,
@@ -60,7 +60,7 @@ export default function Layout({
           src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"
           defer
         ></script>
-      </Helmet>
+</Helmet>
 
       <Header />
       <Toaster />

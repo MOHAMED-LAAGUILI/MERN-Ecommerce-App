@@ -11,20 +11,20 @@ import UserDashboardPage from "./pages/user/user-dashboard.jsx";
 import ForgotPassword from "./pages/Auth/ForgotPassword.jsx";
 import Profile from "./pages/Profile.jsx";
 import AdminDashboardPage from "./pages/admin/admin-dashboard.jsx";
-import CreateProduct from "./pages/admin/CreateProduct.jsx";
-import CreateCategory from "./pages/admin/CreateCategory.jsx";
+import CreateProduct from "./pages/admin/CRUD_Product.jsx";
+import CreateCategory from "./pages/admin/CRUD_Category.jsx";
 import Users from "./pages/admin/Users.jsx";
 import "./index.css";
 export default function App() {
   return (
     <Routes>
-      {/* USER */}
-      <Route path="/dashboard/user" element={<UserDashboardPage />} />
       {/* Admin */}
       <Route path="/dashboard/admin" element={<AdminDashboardPage />} />
       <Route path="/dashboard/admin/create-categories" element={<CreateCategory />} />
       <Route path="/dashboard/admin/create-products" element={<CreateProduct />} />
       <Route path="/dashboard/admin/users" element={<Users />} />
+      {/* USER */}
+      <Route path="/dashboard/user" element={<UserDashboardPage />} />
       {/* Common Pages */}
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />

@@ -177,6 +177,30 @@ export default function Register() {
     )}
   </div>
 
+    {/* Phone Field */}
+    <div className="col-span-1 md:col-span-2 mb-4">
+    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300" htmlFor="phone">
+     phone
+    </label>
+    <input
+      type="text"
+      id="phone"
+      {...register("phone", {
+        required: "Phone is required",
+      })}
+      className={`dark:text-white mt-1 block w-full p-2 border ${
+        errors.answer ? "border-red-500" : "border-gray-300"
+      } rounded-md focus:ring focus:ring-blue-500 dark:bg-gray-700`}
+    />
+    {errors.phone && (
+      <p className="text-red-500 text-xs mt-1">
+        <i className="uil uil-exclamation-triangle"></i> {errors.phone.message}
+      </p>
+    )}
+  </div>
+
+
+
 
               {/* Address Fields */}
               <div className="mb-4">
