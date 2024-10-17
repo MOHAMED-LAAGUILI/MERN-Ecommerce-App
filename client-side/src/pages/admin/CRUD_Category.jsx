@@ -6,7 +6,7 @@ import axios from "axios";
 import { Modal } from "antd";
 import DataTable from "react-data-table-component";
 
-const CreateCategory = () => {
+const CrudCategory = () => {
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [newCategory, setNewCategory] = useState({ name: "" });
@@ -37,7 +37,7 @@ const CreateCategory = () => {
         );
         if (response.data.success) {
           setCategories(response.data.categories || []);
-          toast.success(response.data.message);
+         // toast.success(response.data.message);
         } else {
           console.error("Error fetching categories:", response.data.message);
         }
@@ -52,7 +52,8 @@ const CreateCategory = () => {
   const handleAddCategory = async (e) => {
     e.preventDefault();
     const categoryExists = categories.some(
-      (category) => category.name.toLowerCase() === newCategory.name.toLowerCase()
+      (category) =>
+        category.name.toLowerCase() === newCategory.name.toLowerCase()
     );
 
     if (categoryExists) {
@@ -80,7 +81,10 @@ const CreateCategory = () => {
   };
 
   const handleEditCategory = async (id, name) => {
-    if (name.toLowerCase() === categories.find((cat) => cat._id === id).name.toLowerCase()) {
+    if (
+      name.toLowerCase() ===
+      categories.find((cat) => cat._id === id).name.toLowerCase()
+    ) {
       toast.info("No changes made to the category name");
       setIsModalOpen(false);
       return;
@@ -205,25 +209,24 @@ const CreateCategory = () => {
       ),
     },
   ];
- 
-// sorting 
+
+  // sorting
   const filteredCategories = categories.filter((category) =>
     category.name.toLowerCase().includes(searchTerm.toLowerCase())
-);
+  );
 
-/////////////////////////// Search
+  /////////////////////////// Search
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
-  
 
   return (
-    <Layout title={"Dashboard - Create Category"}>
-      <div className="flex container dark:text-white flex flex-col md:flex-row bg-gradient-to-b from-gray-900 to-gray-800 min-h-screen text-gray-300 text-gray-800"  style={{ minHeight: "79.5vh" }} >
-        <div className="md:w-2/4 lg:2/4 sm:4/4">
+    <Layout title={"Dashboard - CRUD Category"}>
+      <div className={"flex px-8"}>
+        <div className={"md:1/4 w-full"}>
           <AdminMenu />
         </div>
-        <div className="container md:w-2/4 lg:2/4 p-4 pt-6 md:p-6 lg:p-12">
+        <div className="container md:w-2/4 lg:2/4 p-4 pt-6 md:p-6 lg:p-12 w-full">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Manage Categories
           </h1>
@@ -274,21 +277,21 @@ const CreateCategory = () => {
           </div>
 
           <DataTable
-          className="dark:bg-gray-900 dark:text-white"
-          columns={columns}
-          data={filteredCategories.map((category, index) => ({
-            index: index + 1,
-            _id: category._id,
-            name: category.name,
-            slug: category.slug,
-          }))}
-          pagination
-          highlightOnHover
-        />
+            className="dark:bg-gray-900 dark:text-white"
+            columns={columns}
+            data={filteredCategories.map((category, index) => ({
+              index: index + 1,
+              _id: category._id,
+              name: category.name,
+              slug: category.slug,
+            }))}
+            pagination
+            highlightOnHover
+          />
         </div>
       </div>
     </Layout>
   );
 };
 
-export default CreateCategory;
+export default CrudCategory;

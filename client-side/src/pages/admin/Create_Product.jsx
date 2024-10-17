@@ -14,7 +14,7 @@ const CreateProduct = () => {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [shipping, setShipping] = useState("");
+  const [shipping, setShipping] = useState(false); // Initialize as boolean
   const [photo, setPhoto] = useState("");
   const [loading, setLoading] = useState(false);
   const apiUrl = import.meta.env.REACT_APP_API;
@@ -30,7 +30,6 @@ const CreateProduct = () => {
     }
   };
 
-  // Get all categories
   const getCategories = async () => {
     try {
       const response = await axios.get(`${apiUrl}/api/v1/category/all-categories`);
@@ -54,8 +53,8 @@ const CreateProduct = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Fill empty fields with default values
       const filledName = name || "Unnamed Product";
+      const slug = filledName.toLowerCase().replace(/\s+/g, "-");
       const filledDescription = description || "No description provided.";
       const filledPrice = price || 0;
       const filledQuantity = quantity || 1;
@@ -64,16 +63,17 @@ const CreateProduct = () => {
         toast.error("Please fill all required fields");
         return;
       }
+
       const formData = new FormData();
       formData.append("name", filledName);
-      formData.append("slug", filledName.replace('-', '').toLowerCase());
+      formData.append("slug", slug);
       formData.append("description", filledDescription);
       formData.append("price", filledPrice);
       formData.append("category", category);
       formData.append("quantity", filledQuantity);
-      if (shipping) formData.append("shipping", shipping);
+      formData.append("shipping", shipping); // Directly append the boolean
       if (photo) formData.append("image", photo);
-      
+
       const response = await axios.post(`${apiUrl}/api/v1/product/create-product`, formData);
       if (response.data.success) {
         toast.success(`Product ${filledName} created successfully!`);
@@ -83,7 +83,7 @@ const CreateProduct = () => {
         setPrice("");
         setCategory("");
         setQuantity("");
-        setShipping("");
+        setShipping(false); // Reset to false
         setPhoto("");
         setPhotoPreview(null);
       } else {
@@ -98,12 +98,12 @@ const CreateProduct = () => {
   };
 
   return (
-    <Layout>
-      <div className={"flex container"}>
-        <div className={"md:1/4"}>
+    <Layout title="Dashboard - Create Product"> 
+      <div className={"flex px-8"}>
+        <div className={"md:1/4 w-full"}>
           <AdminMenu />
         </div>
-        <div className={"md:3/4 w-full"}>
+        <div className="container md:w-2/4 lg:2/4 p-4 pt-6 md:p-6 lg:p-12 w-full">
           <div className="container mx-auto px-4 py-8">
             <h1 className="text-3xl font-bold mb-6">Create Product</h1>
             <form onSubmit={createProduct} className="space-y-6">
@@ -173,8 +173,8 @@ const CreateProduct = () => {
                 <select
                   id="shipping"
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  value={shipping}
-                  onChange={(e) => setShipping(e.target.value === 'true')}
+                  value={shipping.toString()} // Convert boolean to string for select
+                  onChange={(e) => setShipping(e.target.value === "true")}
                 >
                   <option value="true">Yes</option>
                   <option value="false">No</option>
@@ -195,13 +195,17 @@ const CreateProduct = () => {
                 />
                 {photoPreview && (
                   <div className="mt-2">
-                    <img src={photoPreview} alt="Product preview" className="max-w-xs h-auto rounded-lg shadow-lg" />
+                    <img
+                      src={photoPreview}
+                      alt="Product preview"
+                      className="max-w-xs h-auto rounded-lg shadow-lg"
+                    />
                   </div>
                 )}
               </div>
               <button
                 type="submit"
-                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2                 focus:ring-indigo-500"
                 disabled={loading}
               >
                 {loading ? "Creating..." : "Create Product"}
@@ -215,3 +219,4 @@ const CreateProduct = () => {
 };
 
 export default CreateProduct;
+

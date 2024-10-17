@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
+import { PropTypes } from 'prop-types';
 
-export default function AdminMenu() {
+export default function AdminMenu({ isModalOpen }) {
   return (
     <div className="dark:text-gray-100 bg-gradient-to-b from-purple-800 to-purple-900 text-gray-100 rounded-xl p-6 space-y-6 shadow-sm">
       <h2 className="text-3xl font-semibold flex items-center mb-6">
@@ -9,24 +10,36 @@ export default function AdminMenu() {
 
       <div className="space-y-4">
         <Link
-          to="/dashboard/admin/create-categories"
-          className="flex items-center p-4 rounded-lg shadow-md border-2  transition-all duration-300 transform hover:scale-105"
+          to="/dashboard/admin/crud-categories"
+          className="flex items-center p-4 rounded-lg shadow-md border-2 transition-all duration-300 transform hover:scale-105"
+          aria-hidden={isModalOpen ? "true" : "false"} // Adjust based on modal state
         >
           <i className="uil uil-layer-group text-2xl mr-3"></i>
-          <span className="text-lg  transition-all">Create Category</span>
+          <span className="text-lg transition-all">Create Category</span>
         </Link>
 
         <Link
           to="/dashboard/admin/create-products"
-          className="flex items-center p-4 rounded-lg shadow-md border-2  transition-all duration-300 transform hover:scale-105"
+          className="flex items-center p-4 rounded-lg shadow-md border-2 transition-all duration-300 transform hover:scale-105"
+          aria-hidden={isModalOpen ? "true" : "false"} // Adjust based on modal state
         >
           <i className="uil uil-plus-circle text-2xl mr-3"></i>
           <span className="text-lg">Create Product</span>
         </Link>
 
         <Link
+          to="/dashboard/admin/list-products"
+          className="flex items-center p-4 rounded-lg shadow-md border-2 transition-all duration-300 transform hover:scale-105"
+          aria-hidden={isModalOpen ? "true" : "false"} // Adjust based on modal state
+        >
+          <i className="uil uil-list-ul text-2xl mr-3"></i>
+          <span className="text-lg">Products List</span>
+        </Link>
+
+        <Link
           to="/dashboard/admin/users"
           className="flex items-center p-4 rounded-lg shadow-md border-2 transition-all duration-300 transform hover:scale-105"
+          aria-hidden={isModalOpen ? "true" : "false"} // Adjust based on modal state
         >
           <i className="uil uil-users-alt text-2xl mr-3"></i>
           <span className="text-lg">Manage Users</span>
@@ -34,7 +47,8 @@ export default function AdminMenu() {
 
         <Link
           to="/dashboard/admin/orders"
-          className="flex items-center p-4 rounded-lg shadow-md border-2  transition-all duration-300 transform hover:scale-105"
+          className="flex items-center p-4 rounded-lg shadow-md border-2 transition-all duration-300 transform hover:scale-105"
+          aria-hidden={isModalOpen ? "true" : "false"} // Adjust based on modal state
         >
           <i className="uil uil-shopping-cart text-2xl mr-3"></i>
           <span className="text-lg">Manage Orders</span>
@@ -43,3 +57,8 @@ export default function AdminMenu() {
     </div>
   );
 }
+
+AdminMenu.propTypes = {
+  isModalOpen: PropTypes.node.isRequired,
+ 
+};
