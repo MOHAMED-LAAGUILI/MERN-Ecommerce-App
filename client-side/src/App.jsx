@@ -14,10 +14,11 @@ import Profile from "./pages/Profile.jsx";
 import AdminDashboardPage from "./pages/admin/admin-dashboard.jsx";
 import CreateProduct from "./pages/admin/Admin_Create_Product.jsx";
 import CrudCategory from "./pages/admin/Admin_CRUD_Category.jsx";
-import Users from "./pages/admin/Users.jsx";
+import CrudUsers from "./pages/admin/Admin-Crud-Users.jsx";
 import List_Products from "./pages/admin/Admin_List_Products.jsx";
 import SingleProductUpdate from "./pages/admin/Admin_Single_Product_Update.jsx";
 import SingleProductViewDetails from "./pages/admin/Single_Product_ViewDetails.jsx";
+import CrudOrdrs from "./pages/admin/Admin-CRUD-UserOrders.jsx";
 
 export default function App() {
   return (
@@ -41,7 +42,8 @@ export default function App() {
         element={<SingleProductUpdate />}
       />
       <Route path="/product/:slug" element={<SingleProductViewDetails />} />
-      <Route path="/dashboard/admin/users" element={<Users />} />
+      <Route path="/dashboard/admin/users" element={<CrudUsers />} />
+      <Route path="/dashboard/admin/users-orders" element={<CrudOrdrs />} />
       {/* USER */}
       <Route path="/dashboard/user" element={<UserDashboardPage />} />
       {/* Common Pages */}

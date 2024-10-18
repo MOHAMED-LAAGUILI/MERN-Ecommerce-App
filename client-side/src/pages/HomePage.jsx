@@ -73,6 +73,7 @@ const Home = () => {
     }
 
     setFilteredProducts(filtered);
+    setCurrentPage(1); // Reset current page to 1 whenever filters change
   };
 
   const handleCategoryChange = (category) => {
@@ -112,10 +113,16 @@ const Home = () => {
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
   const displayedProducts = filteredProducts.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
 
+  // Utility function to truncate text description
+  const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) return text;
+    return `${text.slice(0, maxLength)}...`;
+  };
+
   return (
     <Layout title="All Products Best Offers">
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-        <div className="container py-10 flex flex-col md:flex-row gap-8">
+        <div className="container py-10 flex flex-col md:flex-row gap-8 w-full">
           {/* Filter Section */}
           <div className="md:w-1/5 bg-white dark:bg-gray-800 p-3 rounded-lg shadow-md" style={{ minHeight: "79.5vh", minWidth: "25%" }}>
             <h1 className="text-lg font-semibold dark:text-white">Filters</h1>
@@ -179,63 +186,38 @@ const Home = () => {
               <div className="flex justify-center items-center h-full">
                 <b>
                   Loading Products
-                  </b>
+                </b>
                 <div className="loader"></div> {/* Loading spinner */}
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-             {displayedProducts.length === 0 ? (
-  <p className="text-gray-500 dark:text-gray-300">No products found for the selected filters.</p>
-) : (
-  displayedProducts.map((product) => (
-    <div key={product._id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-2 flex flex-col items-center">
-       <img
-                      src={`${apiUrl}/api/v1/product/product-photo/${product._id}`}
-
+              <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {displayedProducts.length === 0 ? (
+                  <p className="text-gray-500 dark:text-gray-300">No products found for the selected filters.</p>
+                ) : (
+                  displayedProducts.map((product) => (
+                    <div key={product._id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-2 flex flex-col items-center">
+                      <img
+                        src={`${apiUrl}/api/v1/product/product-photo/${product._id}`}
                         className="object-cover rounded-lg mb-2"
                         alt={product.name}
                       />
-      <h5 className="text-sm font-bold dark:text-white mb-1">{product.name}</h5>
-      <p className="text-xs text-gray-600 dark:text-gray-300 mb-1">{product.description}</p>
-      <p className="font-semibold text-blue-500 text-sm">Price: ${product.price.toFixed(2)}</p>
-      <p className="text-xs text-gray-500 dark:text-gray-100">Category: {product.category?.name || 'Unknown'}</p>
-      <p className="text-xs text-gray-500 dark:text-gray-100">Shipping: {product.shipping ? "Free" : "Paid"}</p>
-      <button onClick={() => navigate(`/product/${product.slug}`)} className="mt-2 px-3 py-1 bg-blue-600 text-white rounded-lg">View Product</button>
-    </div>
-  ))
-)}
-
-            </div>
+                      <h5 className="text-sm font-bold dark:text-white mb-1">{product.name}</h5>
+                      <p className="text-xs text-gray-600 dark:text-gray-300 mb-1">
+                        {truncateText(product.description, 50)} {/* Truncate description to 50 characters */}
+                      </p>
+                      <p className="font-semibold text-blue-500 text-sm">${product.price}</p>
+                      <button onClick={() => navigate(`/product/${product.slug}`)} className="mt-2 px-3 py-1 bg-blue-600 text-white rounded-lg">View Product</button>
+                      </div>
+                  ))
+                )}
+              </div>
             )}
             {/* Pagination */}
-            <div className="mt-4 flex justify-center items-center space-x-2">
-  <button
-    disabled={currentPage === 1}
-    onClick={() => setCurrentPage(currentPage - 1)}
-    className={`px-4 py-2 rounded-lg transition-all duration-300 ${currentPage === 1 ? "bg-gray-300 dark:bg-gray-600 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-500"}`}
-  >
-    Previous
-  </button>
-
-  {Array.from({ length: totalPages }, (_, index) => (
-    <button
-      key={index}
-      onClick={() => setCurrentPage(index + 1)}
-      className={`px-3 py-1 rounded-lg transition-all duration-300 ${currentPage === index + 1 ? "bg-blue-600 text-white" : "bg-gray-200 dark:bg-gray-700 text-gray-800 hover:bg-blue-500 hover:text-white"}`}
-    >
-      {index + 1}
-    </button>
-  ))}
-
-  <button
-    disabled={currentPage === totalPages}
-    onClick={() => setCurrentPage(currentPage + 1)}
-    className={` dark:text-gray-100 px-4 py-2 rounded-lg transition-all duration-300 ${currentPage === totalPages ? "bg-gray-100 dark:bg-gray-600 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-500"}`}
-  >
-    Next
-  </button>
-</div>
-
+            <div className="flex justify-center mt-4">
+              <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1} className="px-3 py-1 bg-blue-500 text-white rounded-l-lg">Previous</button>
+              <span className="px-4 py-1 dark:text-gray-100">{currentPage} / {totalPages}</span>
+              <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} className="px-3 py-1 bg-blue-500 text-white rounded-r-lg">Next</button>
+            </div>
           </div>
         </div>
       </div>

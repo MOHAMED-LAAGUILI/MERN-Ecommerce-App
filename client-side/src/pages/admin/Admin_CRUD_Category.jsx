@@ -222,7 +222,7 @@ const CrudCategory = () => {
 
   return (
     <Layout title={"Dashboard - CRUD Category"}>
-      <div className={"flex px-8"}>
+      <div className={"flex flex-col md:flex-row px-8"}>
         <div className={"md:1/4 w-full"}>
           <AdminMenu />
         </div>

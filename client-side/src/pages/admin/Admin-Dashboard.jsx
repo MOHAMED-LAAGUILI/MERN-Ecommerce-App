@@ -13,7 +13,7 @@ export default function AdminDashboardPage() {
         <Spinner />
       ) : (
         <Layout title="Admin Dashboard - Ecommerce App">
-          <div className="dark:text-white flex flex-col md:flex-row bg-gradient-to-b from-gray-900 to-gray-800 min-h-screen text-gray-300 text-gray-800">
+          <div className="dark:text-white flex flex-col md:flex-row bg-gradient-to-b from-gray-900 to-gray-800 text-gray-300 text-gray-800">
             {/* Admin Menu */}
             <div className="md:w-1/4 p-6 text-black font-bold ">
               <AdminMenu />

@@ -74,6 +74,15 @@ const SingleProductViewDetails = () => {
     );
   }
 
+
+  
+  // Utility function to truncate text description
+  const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) return text;
+    return `${text.slice(0, maxLength)}...`;
+  };
+
+
   return (
     <Layout title={product.name}>
       <div className="container mx-auto p-5">
@@ -131,7 +140,7 @@ const SingleProductViewDetails = () => {
                     onClick={() => handleImageClick(`${apiUrl}/api/v1/product/product-photo/${similarProduct._id}`)}
                   />
                   <h3 className="text-lg font-semibold">{similarProduct.name}</h3>
-                  <p className="text-gray-600 mb-2">{similarProduct.description}</p>
+                  <p className="text-gray-600 mb-2">  {truncateText(similarProduct.description, 50)}</p>
                   <div className="flex items-center mb-2">
                     <FaMoneyBillWave className="text-blue-500 mr-1" />
                     <span className="font-semibold">${similarProduct.price.toFixed(2)}</span>
@@ -159,7 +168,7 @@ const SingleProductViewDetails = () => {
           >
             Previous
           </button>
-          <span className="m-2 dark:text-gray-100 font-bold">{`${currentPage} of ${totalPages}`}</span>
+          <span className="m-2 dark:text-gray-200 font-bold">{currentPage} of ${totalPages}</span>
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
@@ -177,6 +186,7 @@ const SingleProductViewDetails = () => {
             <img
               src={selectedImage}
               alt="Zoomed"
+              width={"500px"}
               className="rounded-lg shadow-lg transition-transform transform scale-100 duration-300 hover:scale-110"
               onClick={closeImageBox} // Close the image box on click
             />

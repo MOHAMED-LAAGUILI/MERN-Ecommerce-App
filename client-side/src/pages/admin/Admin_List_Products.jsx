@@ -64,17 +64,17 @@ function List_Products() {
   };
 
   return (
-    <Layout>
-      <div className="flex flex-col md:flex-row">
-        <div className="md:w-1/4 p-4">
+    <Layout >
+      <div className="flex flex-col md:flex-row" style={{ minHeight: "75vh" }}>
+        <div className="md:w-1/4 p-4" >
           <AdminMenu />
         </div>
         <div className="md:w-3/4 p-4">
-          <h1 className="text-3xl font-semibold text-center mb-6">
+          <h1 className="dark:text-gray-100 text-3xl font-semibold text-center mb-6">
             All Products List
           </h1>
           <div className="flex flex-wrap justify-center">
-            {products?.map((p) => (
+            {  products?.map((p) => (
               <div
                 key={p._id}
                 className="m-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4"

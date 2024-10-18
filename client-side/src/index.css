@@ -3,7 +3,7 @@
 :root {
   --scrollbar-width: 18px;        /* Wider scrollbar */
   --scrollbar-track-bg: #e0e0e0;  /* Track background color */
-  --scrollbar-thumb-bg: #5850ec;  /* Thumb background color (indigo) */
+  --scrollbar-thumb-bg: #ff5a1f;  /* Thumb background color (indigo) */
   --scrollbar-border-radius: 50px; /* More rounded thumb and track */
   --scrollbar-thumb-border: 4px solid #e0e0e0; /* Thumb border */
 }

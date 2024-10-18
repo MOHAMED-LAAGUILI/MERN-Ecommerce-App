@@ -104,80 +104,80 @@ const CreateProduct = () => {
 
   return (
     <Layout title="Dashboard - Create Product"> 
-      <div className={"flex px-8"}>
+      <div className={"flex flex-col md:flex-row px-8 dark:text-white"}>
         <div className={"md:1/4 w-full"}>
           <AdminMenu />
         </div>
-        <div className="container md:w-2/4 lg:2/4 p-4 pt-6 md:p-6 lg:p-12 w-full">
-          <div className="container mx-auto px-4 py-8">
+        <div className="container md:w-2/4 lg:2/4 p-4 pt-6 md:p-6 lg:p-12 w-full ">
+          <div className="container mx-auto px-4 py-8 ">
             <h1 className="text-3xl font-bold mb-6">Create Product</h1>
-            <form onSubmit={createProduct} className="space-y-6">
+            <form onSubmit={createProduct} className="space-y-6 ">
               {/* Form fields (Name, Description, Price, Category, Quantity, Shipping, Photo) */}
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name:</label>
+              <div >
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-white">Name:</label>
                 <input
                   type="text"
                   id="name"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="dark:bg-gray-700 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
               <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description:</label>
+                <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-white">Description:</label>
                 <textarea
                   id="description"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="dark:bg-gray-700 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows="3"
                 />
               </div>
               <div>
-                <label htmlFor="price" className="block text-sm font-medium text-gray-700">Price:</label>
+                <label htmlFor="price" className="block text-sm font-medium text-gray-700 dark:text-white">Price:</label>
                 <input
                   type="number"
                   id="price"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="dark:bg-gray-700 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                 />
               </div>
               <div>
-                <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category:</label>
+                <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-white">Category:</label>
                 <Select
                   id="category"
                   value={category}
                   onChange={(value) => setCategory(value)}
                   placeholder="Select a category"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className=" mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 >
                   {Array.isArray(categories) && categories.length > 0 ? (
                     categories.map((cat) => (
-                      <Option key={cat._id} value={cat._id}>
+                      <Option className={"dark:text-gray-100 dark:bg-gray-700"} key={cat._id} value={cat._id}>
                         {cat.name}
                       </Option>
                     ))
                   ) : (
-                    <Option disabled>No categories available</Option>
+                    <Option >No categories available</Option>
                   )}
                 </Select>
               </div>
               <div>
-                <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">Quantity:</label>
+                <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 dark:text-white">Quantity:</label>
                 <input
                   type="number"
                   id="quantity"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="dark:bg-gray-700 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
                 />
               </div>
               <div>
-                <label htmlFor="shipping" className="block text-sm font-medium text-gray-700">Shipping:</label>
+                <label htmlFor="shipping" className="block text-sm font-medium text-gray-700 dark:text-white ">Shipping:</label>
                 <select
                   id="shipping"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="dark:bg-gray-700 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   value={shipping.toString()} // Convert boolean to string for select
                   onChange={(e) => setShipping(e.target.value === "true")}
                 >
@@ -191,7 +191,7 @@ const CreateProduct = () => {
                   type="file"
                   id="photo"
                   
-                  className="text-bold mt-1 block w-full text-sm text-gray-500
+                  className="dark:bg-gray-700 text-bold mt-1 block w-full text-sm text-gray-500
                     file:mr-4 file:py-2 file:px-4
                     file:rounded-full file:border-0
                     file:text-sm file:font-semibold
