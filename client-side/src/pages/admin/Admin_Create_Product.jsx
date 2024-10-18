@@ -52,29 +52,28 @@ const CreateProduct = () => {
   const createProduct = async (e) => {
     e.preventDefault();
     setLoading(true);
+  
+    // Define default values
+    const filledName = name ;
+    const slug = filledName.toLowerCase().replace(/\s+/g, "-");
+    const filledDescription = description || "No description provided.";
+    const filledPrice = price ;
+    const filledQuantity = quantity || 1;
+    const filledphoto = photo || "/src/assets/images/ecommerceLogo.jpg";
+    // Prepare form data
+    const formData = new FormData();
+    formData.append("name", filledName);
+    formData.append("slug", slug);
+    formData.append("description", filledDescription);
+    formData.append("price", filledPrice);
+    formData.append("category", category);
+    formData.append("quantity", filledQuantity);
+    formData.append("shipping", shipping); // Directly append the boolean
+    if (photo) formData.append("image", filledphoto);
+  
     try {
-      const filledName = name || "Unnamed Product";
-      const slug = filledName.toLowerCase().replace(/\s+/g, "-");
-      const filledDescription = description || "No description provided.";
-      const filledPrice = price || 0;
-      const filledQuantity = quantity || 1;
-
-      if (!filledName || !filledDescription || !filledPrice || !category || !filledQuantity) {
-        toast.error("Please fill all required fields");
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("name", filledName);
-      formData.append("slug", slug);
-      formData.append("description", filledDescription);
-      formData.append("price", filledPrice);
-      formData.append("category", category);
-      formData.append("quantity", filledQuantity);
-      formData.append("shipping", shipping); // Directly append the boolean
-      if (photo) formData.append("image", photo);
-
       const response = await axios.post(`${apiUrl}/api/v1/product/create-product`, formData);
+      
       if (response.data.success) {
         toast.success(`Product ${filledName} created successfully!`);
         // Reset form fields after successful creation
@@ -87,15 +86,21 @@ const CreateProduct = () => {
         setPhoto("");
         setPhotoPreview(null);
       } else {
-        toast.error(response.data.message || "Failed to create product");
+        // Show error message from the server response
+        toast.error(response.data.error || "Failed to create product");
       }
     } catch (error) {
-      console.error("Error creating product:", error);
-      toast.error(error.response?.data?.message || "Failed to create product");
+      // Show error message from the server response
+      if (error.response && error.response.data && error.response.data.error) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error("Failed to create product");
+      }
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <Layout title="Dashboard - Create Product"> 
@@ -176,8 +181,8 @@ const CreateProduct = () => {
                   value={shipping.toString()} // Convert boolean to string for select
                   onChange={(e) => setShipping(e.target.value === "true")}
                 >
-                  <option value="true">Yes</option>
-                  <option value="false">No</option>
+                  <option value={true}>Free</option>
+                  <option value={false}>Paid</option>
                 </select>
               </div>
               <div>
@@ -185,7 +190,8 @@ const CreateProduct = () => {
                 <input
                   type="file"
                   id="photo"
-                  className="mt-1 block w-full text-sm text-gray-500
+                  
+                  className="text-bold mt-1 block w-full text-sm text-gray-500
                     file:mr-4 file:py-2 file:px-4
                     file:rounded-full file:border-0
                     file:text-sm file:font-semibold

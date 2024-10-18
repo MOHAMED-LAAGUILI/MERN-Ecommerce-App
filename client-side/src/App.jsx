@@ -12,22 +12,35 @@ import UserDashboardPage from "./pages/user/user-dashboard.jsx";
 import ForgotPassword from "./pages/Auth/ForgotPassword.jsx";
 import Profile from "./pages/Profile.jsx";
 import AdminDashboardPage from "./pages/admin/admin-dashboard.jsx";
-import CreateProduct from "./pages/admin/Create_Product.jsx";
-import CrudCategory from "./pages/admin/CRUD_Category.jsx";
+import CreateProduct from "./pages/admin/Admin_Create_Product.jsx";
+import CrudCategory from "./pages/admin/Admin_CRUD_Category.jsx";
 import Users from "./pages/admin/Users.jsx";
-import List_Products from './pages/admin/List_Products.jsx';
-import SingleProduct from "./pages/admin/Single_Product.jsx";
-
+import List_Products from "./pages/admin/Admin_List_Products.jsx";
+import SingleProductUpdate from "./pages/admin/Admin_Single_Product_Update.jsx";
+import SingleProductViewDetails from "./pages/admin/Single_Product_ViewDetails.jsx";
 
 export default function App() {
   return (
     <Routes>
       {/* Admin */}
       <Route path="/dashboard/admin" element={<AdminDashboardPage />} />
-      <Route path="/dashboard/admin/crud-categories" element={<CrudCategory />} />
-      <Route path="/dashboard/admin/create-products" element={<CreateProduct />} />
-      <Route path="/dashboard/admin/list-products" element={<List_Products />} />
-      <Route path="/dashboard/admin/get-product/:slug" element={<SingleProduct />} />
+      <Route
+        path="/dashboard/admin/crud-categories"
+        element={<CrudCategory />}
+      />
+      <Route
+        path="/dashboard/admin/create-products"
+        element={<CreateProduct />}
+      />
+      <Route
+        path="/dashboard/admin/list-products"
+        element={<List_Products />}
+      />
+      <Route
+        path="/dashboard/admin/get-product/:slug"
+        element={<SingleProductUpdate />}
+      />
+      <Route path="/product/:slug" element={<SingleProductViewDetails />} />
       <Route path="/dashboard/admin/users" element={<Users />} />
       {/* USER */}
       <Route path="/dashboard/user" element={<UserDashboardPage />} />
@@ -37,7 +50,7 @@ export default function App() {
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/policy" element={<PolicyPage />} />
       <Route path="/profile" element={<Profile />} />
-      <Route path="/cart" element={<CartPage />} /> 
+      <Route path="/cart" element={<CartPage />} />
       {/* Authantication */}
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />

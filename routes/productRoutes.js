@@ -4,6 +4,7 @@ import {
     createProductController,
     getAllProductsController,
     getProductController,
+    getSimilarProductsController,
     productImageController,
     deleteProductController,
     updateProductController
@@ -57,6 +58,9 @@ router.put(
 
 //get Single Products Route
 router.get("/get-product/:slug", getProductController);
+
+// Single Products --> similar products
+router.get('/similar-products/:categoryId', getSimilarProductsController);
 
 //get photo
 router.get("/product-photo/:pid", productImageController);

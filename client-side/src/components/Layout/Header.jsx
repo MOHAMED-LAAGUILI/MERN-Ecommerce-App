@@ -54,7 +54,7 @@ const handleLogout = () => {
 };
 
   return (
-    <nav className="bg-white border-b border-gray-200 dark:bg-gray-900 shadow-lg">
+    <nav className="bg-white  border-gray-200 dark:bg-gray-900 shadow-lg">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link
         to={`/dashboard/${

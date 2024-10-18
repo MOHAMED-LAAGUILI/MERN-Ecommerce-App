@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const { Option } = Select;
 
-const SingleProduct = () => {
+const SingleProductUpdate = () => {
   const navigate = useNavigate();
   const params = useParams();
   const [categories, setCategories] = useState([]);
@@ -189,8 +189,8 @@ const SingleProduct = () => {
                 placeholder="Select Shipping"
                 value={shipping ? "Yes" : "No"}
               >
-                <Option value={true}>Yes</Option>
-                <Option value={false}>No</Option>
+                <Option value={true}>Free</Option>
+                <Option value={false}>Paid</Option>
               </Select>
 
               <div className="flex justify-between">
@@ -210,4 +210,4 @@ const SingleProduct = () => {
   );
 };
 
-export default SingleProduct;
+export default SingleProductUpdate;
