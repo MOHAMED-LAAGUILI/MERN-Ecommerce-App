@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/auth";
 import Layout from "../components/Layout/Layout";
 import { useState } from "react";
+import Spinner from "../components/Spinner";
 
 export default function Profile() {
   const [auth] = useAuth();
@@ -14,6 +15,12 @@ export default function Profile() {
   const toggleSecretVisibility = () => {
     setShowSecret(!showSecret);
   };
+
+
+ 
+    if (!auth.user) {
+      return <Spinner message={`Must be Logged in to access ${'Profile Page'}`} />;
+    } 
 
   return (
     <Layout title="Profile">

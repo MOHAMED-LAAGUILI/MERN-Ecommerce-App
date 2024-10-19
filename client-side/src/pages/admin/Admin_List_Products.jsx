@@ -4,10 +4,13 @@ import AdminMenu from "./Admin-Menu";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import Spinner from "../../components/Spinner";
+import { useAuth } from "../../context/auth";
 
 function List_Products() {
   const [products, setProducts] = useState([]);
   const apiUrl = import.meta.env.REACT_APP_API;
+  const [auth] = useAuth();
 
   /////// get all products
   const getAllProducts = async () => {
@@ -63,6 +66,15 @@ function List_Products() {
     }
   };
 
+  
+
+
+ 
+  if (!auth.user) {
+    return <Spinner message={"Must be Logged in to access this ressource"} />;
+  } else if (auth.user.isAdmin !== 1) {
+    return <Spinner message={"Must be an Admin to access this ressource"} />;
+  }
   return (
     <Layout >
       <div className="flex flex-col md:flex-row" style={{ minHeight: "75vh" }}>

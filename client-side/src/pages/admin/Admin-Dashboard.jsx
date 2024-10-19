@@ -7,11 +7,17 @@ import DashboardCard from "./Admin-Card";
 export default function AdminDashboardPage() {
   const [auth] = useAuth();
 
+
+ 
+    if (!auth.user) {
+      return <Spinner message={"Must be Logged in to access this ressource"} />;
+    } else if (auth.user.isAdmin !== 1) {
+      return <Spinner message={"Must be an Admin to access this ressource"} />;
+    }
+
   return (
-    <>
-      {!auth.user ? (
-        <Spinner />
-      ) : (
+
+      
         <Layout title="Admin Dashboard - Ecommerce App">
           <div className="dark:text-white flex flex-col md:flex-row bg-gradient-to-b from-gray-900 to-gray-800 text-gray-300 text-gray-800">
             {/* Admin Menu */}
@@ -51,7 +57,7 @@ export default function AdminDashboardPage() {
             </div>
           </div>
         </Layout>
-      )}
-    </>
-  );
+     
+    
+  )
 }

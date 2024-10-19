@@ -4,10 +4,15 @@ import toast from 'react-hot-toast';
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../../context/auth";
 
 export default function Register() {
   const navigate = useNavigate();
   const apiUrl = import.meta.env.REACT_APP_API;
+
+  // context session
+  const  [auth] = useAuth();
+
 
   // add the loading to form btn
   const [loading, setLoading] = useState(false);
@@ -60,6 +65,10 @@ export default function Register() {
       setLoading(false);
     }
   };
+
+  if (auth.user) {
+    return navigate("/");
+   }
 
   return (
     <Layout title="Register"  description="User registration page">
@@ -257,7 +266,15 @@ export default function Register() {
             </div>
 
             {/* Submit and Reset Buttons */}
-            <div className="mt-6 flex justify-between items-center">
+            <div className="flex justify-between items-center">
+              <button
+                type="button"
+                onClick={() => reset()}
+                className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring focus:ring-gray-300"
+              >
+             <i className="uil uil-history-alt"></i>   Reset
+              </button>
+
               <button
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
@@ -266,19 +283,12 @@ export default function Register() {
                <i className="uil uil-user-plus"></i> {loading ? "Registering..." : "Register"}
               </button>
 
-              <button
-                type="button"
-                onClick={() => reset()}
-                className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring focus:ring-gray-300"
-              >
-             <i className="uil uil-history-alt"></i>   Reset
-              </button>
             </div>
 
             <div className="dark:text-white mt-4 text-center">
                 Already have an account?  
               <Link to="/login" className="font-bold text-blue-500 hover:underline">
-                <br />  Log in here<i className="uil uil-forward"></i>
+                {" "} Log in here<i className="uil uil-forward"></i>
               </Link>
             </div>
           </form>

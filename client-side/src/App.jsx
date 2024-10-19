@@ -11,7 +11,7 @@ import CartPage from "./pages/CartPage.jsx";
 import UserDashboardPage from "./pages/user/user-dashboard.jsx";
 import ForgotPassword from "./pages/Auth/ForgotPassword.jsx";
 import Profile from "./pages/Profile.jsx";
-import AdminDashboardPage from "./pages/admin/admin-dashboard.jsx";
+import AdminDashboardPage from "./pages/admin/Admin-Dashboard.jsx";
 import CreateProduct from "./pages/admin/Admin_Create_Product.jsx";
 import CrudCategory from "./pages/admin/Admin_CRUD_Category.jsx";
 import CrudUsers from "./pages/admin/Admin-Crud-Users.jsx";

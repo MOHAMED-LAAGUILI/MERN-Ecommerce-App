@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 
 export default function AdminMenu({ isModalOpen }) {
+
+  
   return (
     <div className="dark:text-gray-100 bg-gradient-to-b from-purple-800 to-purple-900 text-gray-100 rounded-xl p-6 space-y-6 shadow-lg">
       <h2 className="text-4xl font-extrabold flex items-center mb-6">

@@ -4,6 +4,8 @@ import AdminMenu from "./Admin-Menu";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { Select } from "antd";
+import { useAuth } from "../../context/auth";
+import Spinner from "../../components/Spinner";
 
 const { Option } = Select;
 
@@ -19,6 +21,7 @@ const CreateProduct = () => {
   const [loading, setLoading] = useState(false);
   const apiUrl = import.meta.env.REACT_APP_API;
   const [photoPreview, setPhotoPreview] = useState(null);
+  const [auth] = useAuth();
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -101,6 +104,15 @@ const CreateProduct = () => {
     }
   };
   
+
+
+
+ 
+  if (!auth.user) {
+    return <Spinner message={"Must be Logged in to access this ressource"} />;
+  } else if (auth.user.isAdmin !== 1) {
+    return <Spinner message={"Must be an Admin to access this ressource"} />;
+  }
 
   return (
     <Layout title="Dashboard - Create Product"> 

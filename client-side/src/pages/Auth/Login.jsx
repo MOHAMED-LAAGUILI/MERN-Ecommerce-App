@@ -62,6 +62,11 @@ const togglePasswordVisibility = () => {
     }
   };
 
+
+ 
+  if (auth.user) {
+   return navigate("/");
+  }
   return (
     <Layout title="Login" >
       <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900 pt-20"  style={{ minHeight: "79.5vh" }}>

@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css');
+
 :root {
   --scrollbar-width: 18px;        /* Wider scrollbar */
   --scrollbar-track-bg: #e0e0e0;  /* Track background color */
@@ -29,8 +29,14 @@
   border: var(--scrollbar-thumb-border);        /* Padding between thumb and track */
 }
 
-/* For Firefox */
-* {
-  scrollbar-width: var(--scrollbar-width); /* Use custom width */
-  scrollbar-color: var(--scrollbar-thumb-bg) var(--scrollbar-track-bg); /* Thumb and track colors */
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.product {
+  flex-basis: 200px;
+  margin: 10px;
 }

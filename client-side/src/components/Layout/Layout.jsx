@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
-import { Helmet } from "react-helmet";
-
+import { Helmet, HelmetProvider } from "react-helmet-async"; // Import Helmet and HelmetProvider
 
 // Components
 import Header from "./Header";
@@ -20,7 +19,7 @@ export default function Layout({
   const themeColor = isDarkMode ? "#1a202c" : "#ffffff";
 
   return (
-    <>
+    <HelmetProvider>
       <Helmet>
         {/* SEO Meta Tags */}
         <meta charSet="utf-8" />
@@ -57,22 +56,23 @@ export default function Layout({
           href="https://unicons.iconscout.com/release/v4.0.8/css/line.css"
         />
         <script
-          src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"
-          defer
-        ></script>
-</Helmet>
+          async src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"
+        />
+      </Helmet>
 
       <Header />
+
       <Toaster />
 
       <main
         style={{ minHeight: "79.5vh" }}
-        className="bg-gray-100 dark:bg-gray-800 transition-colors duration-500">
+        className="bg-gray-100 dark:bg-gray-800 transition-colors duration-500"
+      >
         {children}
       </main>
 
       <Footer />
-    </>
+    </HelmetProvider>
   );
 }
 

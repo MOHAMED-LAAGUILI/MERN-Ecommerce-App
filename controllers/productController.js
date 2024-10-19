@@ -78,14 +78,13 @@ export const getAllProductsController = async (req, res) => {
     const products = await productModel
       .find({})
       .populate("category") // Populate the category field
-      .select("-image")
-      .limit(12)
-      .sort({ createdAt: -1 });
+      .select("-image") // Exclude the image field if not needed
+      .sort({ createdAt: -1 }); // Sort products by creation date
 
     res.status(200).send({
       success: true,
       countTotal: products.length,
-      message: "all products retrieved successfully",
+      message: "All products retrieved successfully",
       products,
     });
   } catch (error) {
@@ -94,11 +93,10 @@ export const getAllProductsController = async (req, res) => {
     );
     res.status(500).send({
       success: false,
-      message: `Error in Fetching Products${error}`,
+      message: `Error in Fetching Products: ${error}`,
     });
   }
 };
-
 // get single product
 export const getProductController = async (req, res) => {
   try {

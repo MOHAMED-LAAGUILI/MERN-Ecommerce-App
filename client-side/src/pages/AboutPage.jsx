@@ -18,7 +18,7 @@ export default function AboutPage() {
               {/* Centering the image */}
               <div className="flex justify-center mt-10">
                 <img
-                  className="object-cover rounded-full"
+                  className="shadow-lg object-cover rounded-full"
                   width="300"
                   height="400"
                   src="./src/assets/images/ecommerceLogo.jpg"

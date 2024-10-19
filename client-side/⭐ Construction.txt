@@ -47,8 +47,9 @@ npm i react-hot-toast
 needed whenu get an err en env process
 https://www.youtube.com/watch?v=GG6FI5-GsFk&ab_channel=BugShop
 
-
-
-
+FontAwesome react icons
+npm i react-icons/fa
+<FaMoneyBillWave className="text-orange-500 inline-block" /> Price Range
+             
 
 

@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { Select } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../../context/auth";
+import Spinner from "../../components/Spinner";
 
 const { Option } = Select;
 
@@ -20,6 +22,7 @@ const SingleProductUpdate = () => {
   const [shipping, setShipping] = useState("");
   const [photo, setPhoto] = useState("");
   const [id, setId] = useState("");
+  const [auth] = useAuth();
   const apiUrl = import.meta.env.REACT_APP_API;
 
   const getSingleProduct = async () => {
@@ -87,7 +90,15 @@ const SingleProductUpdate = () => {
   };
   
 
-  
+
+
+ 
+  if (!auth.user) {
+    return <Spinner message={"Must be Logged in to access this ressource"} />;
+  } else if (auth.user.isAdmin !== 1) {
+    return <Spinner message={"Must be an Admin to access this ressource"} />;
+  }
+
   return (
     <Layout title={"Dashboard - Update Product"}>
       <div className="container mx-auto p-5">

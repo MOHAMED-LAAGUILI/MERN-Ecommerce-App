@@ -2,20 +2,22 @@ import { useState, useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-hot-toast";
-import { FaMoneyBillWave, FaTag, FaBox, FaShippingFast } from "react-icons/fa";
-import { AiFillHeart } from "react-icons/ai";
+import  toast  from "react-hot-toast";
+import { FaMoneyBillWave, FaTag, FaBox, FaShippingFast, FaHeart } from "react-icons/fa";
+import { useCart } from "../../context/cart";
+const apiUrl = import.meta.env.REACT_APP_API;
 
 const SingleProductViewDetails = () => {
   const navigate = useNavigate();
   const params = useParams();
   const [product, setProduct] = useState(null);
   const [similarProducts, setSimilarProducts] = useState([]);
-  const [showImageBox, setShowImageBox] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [showImageBox, setShowImageBox] = useState(false);// imagebox view zoom in
+  const [selectedImage, setSelectedImage] = useState(null);// image view
   const [currentPage, setCurrentPage] = useState(1); // Current page state
   const itemsPerPage = 3; // Number of items per page
-  const apiUrl = import.meta.env.REACT_APP_API;
+  const [cart,setCart] = useCart(); //cart functionality context
+
 
   const getSingleProduct = async () => {
     try {
@@ -116,9 +118,13 @@ const SingleProductViewDetails = () => {
           </div>
           <button
             className="flex items-center justify-center mt-4 w-full p-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition"
-            onClick={() => navigate("/cart")}
+            onClick={() => {setCart([...cart,product])
+              toast.success(`Item Aded to Cart ${"❤️⭐"}`);
+            }}
+           
           >
-            <AiFillHeart className="mr-2" />
+            
+            <FaHeart className="mr-2 text-red-600" />
             Add to Cart
           </button>
         </div>
@@ -168,7 +174,7 @@ const SingleProductViewDetails = () => {
           >
             Previous
           </button>
-          <span className="m-2 dark:text-gray-200 font-bold">{currentPage} of ${totalPages}</span>
+          <span className="m-2 dark:text-gray-200 font-bold">{currentPage} / {totalPages}</span>
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}

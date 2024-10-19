@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { Modal } from "antd";
 import DataTable from "react-data-table-component";
+import Spinner from "../../components/Spinner";
+import { useAuth } from "../../context/auth";
 
 const CrudCategory = () => {
   const [categories, setCategories] = useState([]);
@@ -14,6 +16,7 @@ const CrudCategory = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentCategoryId, setCurrentCategoryId] = useState(null);
   const [error, setError] = useState(null);
+  const [auth] = useAuth();
 
   const showModal = (category) => {
     setCurrentCategoryId(category._id);
@@ -220,6 +223,15 @@ const CrudCategory = () => {
     setSearchTerm(e.target.value);
   };
 
+
+
+
+ 
+  if (!auth.user) {
+    return <Spinner message={"Must be Logged in to access this ressource"} />;
+  } else if (auth.user.isAdmin !== 1) {
+    return <Spinner message={"Must be an Admin to access this ressource"} />;
+  }
   return (
     <Layout title={"Dashboard - CRUD Category"}>
       <div className={"flex flex-col md:flex-row px-8"}>

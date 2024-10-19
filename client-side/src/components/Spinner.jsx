@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from 'react-helmet';
+import PropTypes from "prop-types";
 
-export default function Spinner() {
-  const [countdown, setCountdown] = useState(5);
+export default function Spinner({message}) {
+  const [countdown, setCountdown] = useState(4);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -11,7 +12,7 @@ export default function Spinner() {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          navigate("/login"); // Redirect to login when countdown reaches 0
+          navigate("/"); // Redirect to login when countdown reaches 0
           return 0;
         }
         return prev - 1;
@@ -50,7 +51,7 @@ export default function Spinner() {
         <div className="loader border-t-4 border-b-4 border-blue-600 rounded-full w-20 h-20 animate-spin mb-4"></div>
       </div>
       <p className="text-lg text-gray-800 dark:text-gray-200 font-semibold">
-      Must be Logged in First <br /> Redirecting you in {countdown}s.
+      {message}<br /> Redirecting you in {countdown}s.
       </p>
       <style>{`
         .loader {
@@ -69,3 +70,7 @@ export default function Spinner() {
   );
 }
 
+Spinner.propTypes = {
+  message: PropTypes.node.isRequired,
+
+};
