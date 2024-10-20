@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { FaMoon, FaSun } from "react-icons/fa";
+import { DarkThemeToggle } from "flowbite-react";
 
 const ThemeToggle = () => {
   const [isDarkMode, setIsDarkMode] = useState(
@@ -10,29 +12,52 @@ const ThemeToggle = () => {
     localStorage.setItem("theme", isDarkMode ? "dark" : "light");
   }, [isDarkMode]);
 
-  return (
-    <>
+  function ThemeTogglerBtn1() {
+    return (
       <button
         onClick={() => setIsDarkMode((prev) => !prev)}
-        className="p-2 bg-gray-700 text-white rounded-md"
-      >
-        {isDarkMode ? "Light Mode" : "Dark Mode"}
-      </button>
-
-      <button
-        onClick={() => setIsDarkMode((prev) => !prev)}
-        className="p-2 bg-gray-700 text-white rounded-md"
+        className="p-2 bg-gray-700 text-1xl rounded-full"
       >
         {isDarkMode ? (
-          <i className="uil uil-brightness"></i>
+          <FaSun className="text-orange-500" />
+          
         ) : (
-          <i className="uil uil-moon-eclipse"></i>
+          <FaMoon className="text-blue-400" />
         )}
       </button>
+    );
+  }
+
+  //eslint-disable-next-line
+  function ThemeTogglerBtn2() {
+    return (
+      <button
+        onClick={() => setIsDarkMode((prev) => !prev)}
+        className="p-2 bg-gray-700 text-white rounded-full"
+      >
+        {isDarkMode ? <FaSun /> : <FaMoon />}
+      </button>
+    );
+  }
+
+  //eslint-disable-next-line
+  function ThemeTogglerBtn3() {
+    return (
+      <>
+        {/*Nees this   import { DarkThemeToggle } from "flowbite-react"; */}
+        <DarkThemeToggle className="mx-2" />
+      </>
+    );
+  }
+
+  return (
+    <>
+      { ThemeTogglerBtn1() }
+      {/* ThemeTogglerBtn2() */}
+      {/* ThemeTogglerBtn3() */}
     </>
   );
 };
-
 
 // to use that them toggler just add the following  <ThemeToggle /> to the palce u wanna be
 export default ThemeToggle;

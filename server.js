@@ -7,6 +7,10 @@ import cors from 'cors';
 import authRoute from './routes/authRoutes.js';
 import categoryRoute from './routes/categoryRoutes.js' 
 import productRoute from './routes/productRoutes.js';
+import compression from 'compression';
+
+
+
 
 
 // configure .env
@@ -18,6 +22,7 @@ connectDB();
 // Rest Object
 const app = express();
 
+app.use(compression());
 // midelwares
 app.use(cors());
 app.use(express.json());
@@ -30,7 +35,7 @@ app.use('/api/v1/product', productRoute)
 
 
 // rest API
-app.get('/', (req, res) => res.send('Please set to productiond'));
+app.get('/', (req, res) => res.send('Please set to production'));
 
 // PORT
 const port = process.env.PORT || 8080;

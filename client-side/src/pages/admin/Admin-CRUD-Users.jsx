@@ -1,5 +1,5 @@
 import Layout from "../../components/Layout/Layout";
-import Spinner from "../../components/Spinner";
+import SpinnerRedirect from "../../components/SpinnerRedirect";
 import { useAuth } from "../../context/auth";
 import AdminMenu from "./Admin-Menu";
 
@@ -13,11 +13,12 @@ export default function CrudUsers() {
 
 
  
-      if (!auth.user) {
-        return <Spinner message={"Must be Logged in to access this ressource"} />;
-      } else if (auth.user.isAdmin !== 1) {
-        return <Spinner message={"Must be an Admin to access this ressource"} />;
+      if(!auth.user) {
+        return <SpinnerRedirect message={"⚠️UnAuthorized ‼️ ⛔ Access denied ❌ Must be Logged in to access this resource"} />;
+      } else if(auth.user.isAdmin !== 1) {
+        return <SpinnerRedirect message={"⚠️UnAuthorized ‼️ this is an Admin resource.⛔ Access denied ❌"} />;
       }
+    
 
     return (
         <Layout title={"Admin - Users CRUD "}>

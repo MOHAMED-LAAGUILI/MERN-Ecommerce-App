@@ -6,14 +6,18 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/auth.jsx";
 import { CartProvider } from "./context/cart.jsx";
 
-createRoot(document.getElementById("root")).render(
-  <AuthProvider>
-    <CartProvider>
+// Create a root element for React to render
+const root = createRoot(document.getElementById("root"));
+
+// Render the application wrapped in necessary providers
+root.render(
+    <AuthProvider>
+  <StrictMode>
     <BrowserRouter>
-      <StrictMode>
-      <App />
-      </StrictMode>
+        <CartProvider>
+          <App />
+        </CartProvider>
     </BrowserRouter>
-    </CartProvider>
-  </AuthProvider>
+  </StrictMode>
+      </AuthProvider>
 );

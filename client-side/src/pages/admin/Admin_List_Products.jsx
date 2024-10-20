@@ -4,8 +4,8 @@ import AdminMenu from "./Admin-Menu";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
-import Spinner from "../../components/Spinner";
 import { useAuth } from "../../context/auth";
+import SpinnerRedirect from "../../components/SpinnerRedirect";
 
 function List_Products() {
   const [products, setProducts] = useState([]);
@@ -71,9 +71,9 @@ function List_Products() {
 
  
   if (!auth.user) {
-    return <Spinner message={"Must be Logged in to access this ressource"} />;
+    return <SpinnerRedirect message={"Must be Logged in to access this ressource"} />;
   } else if (auth.user.isAdmin !== 1) {
-    return <Spinner message={"Must be an Admin to access this ressource"} />;
+    return <SpinnerRedirect message={"Must be an Admin to access this ressource"} />;
   }
   return (
     <Layout >

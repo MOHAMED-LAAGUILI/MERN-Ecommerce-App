@@ -18,7 +18,7 @@ export const registerUserController = async (req, res) => {
       city,
       state,
       zip,
-      isAdmin
+      isAdmin,
     } = req.body;
 
     // Check if the user already exists
@@ -43,7 +43,7 @@ export const registerUserController = async (req, res) => {
       city,
       state,
       zip,
-      isAdmin
+      isAdmin,
     });
 
     res
@@ -79,16 +79,21 @@ export const loginUserController = async (req, res) => {
     }
 
     // Generate JWT token
-    const token = JWT.sign({ userId: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, {
-      expiresIn: "30d",
-    });
+    const token = JWT.sign(
+      { _id: user._id, isAdmin: user.isAdmin },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "30d",
+      }
+    );
 
     res.status(200).json({
       success: true,
-      message: "Login successfully",
+      message: "Logged in successfully",
       user: {
         username: user.username,
         email: user.email,
+        password: user.password,
         phone: user.phone,
         answer: user.answer,
         street: user.street,
@@ -140,5 +145,71 @@ export const testController = async (req, res) => {
   } catch (error) {
     console.error(`Error while testing protected route : ${error.message}`.red);
     res.send("Error while testing protected route");
+ res.json({ user: req.user });
+  
+  }
+};
+
+
+// updateProfileController
+export const updateProfileController = async (req, res) => {
+  try {
+    // Validate token format
+    const token = req.headers.authorization;
+    if (!token || !token.startsWith('Bearer ')) {
+      return res.status(401).json({ success: false, message: "Token format invalid" });
+    }
+
+    // Log request body and user
+    console.log("Request body:", req.body);
+    console.log("Request user:", req.user);
+
+    // Validate request body
+    if (!req.body || !req.body.username || !req.body.phone) {
+      return res.status(400).json({ success: false, message: "Missing required fields" });
+    }
+
+    const { username, phone, street, city, state, zip } = req.body;
+    const userId = req.user._id; // Ensure this is correct
+
+    // Validate user ID
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "User  ID is undefined" });
+    }
+
+    console.log("Updating user with ID:", userId);
+    console.log("Update data:", { username, phone, street, city, state, zip });
+
+    // Update user in the database
+    const updatedUser  = await userModel.findByIdAndUpdate(
+      userId,
+      { username, phone, street, city, state, zip },
+      { new: true }
+    );
+
+    if (!updatedUser ) {
+      console.log("User  update failed for ID:", userId);
+      return res.status(500).json({
+        success: false,
+        message: "Failed to update user"
+      });
+    }
+
+    console.log("User  updated successfully:", updatedUser );
+
+    // Respond with updated user data
+    res.json({
+      success: true,
+      message: "Profile updated successfully",
+      user: updatedUser 
+    });
+
+  } catch (error) {
+    console.error("Profile update error:", error.stack);
+    res.status(500).json({
+      success: false,
+      message: "Error in profile update",
+      error: error.message
+    });
   }
 };

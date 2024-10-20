@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from 'react-helmet';
 import PropTypes from "prop-types";
 
-export default function Spinner({message}) {
+export default function SpinnerRedirect({message}) {
   const [countdown, setCountdown] = useState(4);
   const navigate = useNavigate();
 
@@ -70,7 +70,7 @@ export default function Spinner({message}) {
   );
 }
 
-Spinner.propTypes = {
+SpinnerRedirect.propTypes = {
   message: PropTypes.node.isRequired,
 
 };

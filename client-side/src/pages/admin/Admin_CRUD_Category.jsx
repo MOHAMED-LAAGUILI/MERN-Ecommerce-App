@@ -5,8 +5,8 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { Modal } from "antd";
 import DataTable from "react-data-table-component";
-import Spinner from "../../components/Spinner";
 import { useAuth } from "../../context/auth";
+import SpinnerRedirect from "../../components/SpinnerRedirect";
 
 const CrudCategory = () => {
   const [categories, setCategories] = useState([]);
@@ -228,9 +228,9 @@ const CrudCategory = () => {
 
  
   if (!auth.user) {
-    return <Spinner message={"Must be Logged in to access this ressource"} />;
+    return <SpinnerRedirect message={"Must be Logged in to access this ressource"} />;
   } else if (auth.user.isAdmin !== 1) {
-    return <Spinner message={"Must be an Admin to access this ressource"} />;
+    return <SpinnerRedirect message={"Must be an Admin to access this ressource"} />;
   }
   return (
     <Layout title={"Dashboard - CRUD Category"}>

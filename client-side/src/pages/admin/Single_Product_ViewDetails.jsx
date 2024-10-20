@@ -6,6 +6,7 @@ import  toast  from "react-hot-toast";
 import { FaMoneyBillWave, FaTag, FaBox, FaShippingFast, FaHeart } from "react-icons/fa";
 import { useCart } from "../../context/cart";
 const apiUrl = import.meta.env.REACT_APP_API;
+import SpinnerLoading from './../../components/SpinnerLoading';
 
 const SingleProductViewDetails = () => {
   const navigate = useNavigate();
@@ -66,16 +67,16 @@ const SingleProductViewDetails = () => {
     setCurrentPage(pageNumber);
   };
 
-  if (!product) {
-    return (
-      <Layout title="Loading...">
-        <div className="flex justify-center items-center h-screen">
-          <h1 className="text-2xl">Loading...</h1>
-        </div>
-      </Layout>
-    );
-  }
 
+// If product is not loaded, show loading screen
+if (!product) {
+  return (
+    <Layout title="Loading...">
+      {/* Pass color as an object */}
+      <SpinnerLoading message={"Product is loading..."} color={{ color: "red", number: 400 }} />
+    </Layout>
+  );
+}
 
   
   // Utility function to truncate text description

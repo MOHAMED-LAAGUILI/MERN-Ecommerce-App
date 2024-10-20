@@ -1,24 +1,25 @@
 import { Routes, Route } from "react-router-dom";
 import "./index.css";
-import HomePage from "./pages/HomePage.jsx";
-import AboutPage from "./pages/AboutPage.jsx";
-import ContactPage from "./pages/ContactPage";
-import PolicyPage from "./pages/PolicyPage.jsx";
-import Page404 from "./pages/Page-404.jsx";
+import HomePage from "./pages/user/HomePage.jsx";
+import AboutPage from "./pages/user/AboutPage.jsx";
+import ContactPage from "./pages/user/ContactPage";
+import PolicyPage from "./pages/user/PolicyPage.jsx";
+import Page404 from "./pages/user/Page-404.jsx";
 import Register from "./pages/Auth/Register.jsx";
 import Login from "./pages/Auth/Login.jsx";
-import CartPage from "./pages/CartPage.jsx";
-import UserDashboardPage from "./pages/user/user-dashboard.jsx";
+import CartPage from "./pages/user/CartPage.jsx";
 import ForgotPassword from "./pages/Auth/ForgotPassword.jsx";
-import Profile from "./pages/Profile.jsx";
 import AdminDashboardPage from "./pages/admin/Admin-Dashboard.jsx";
 import CreateProduct from "./pages/admin/Admin_Create_Product.jsx";
 import CrudCategory from "./pages/admin/Admin_CRUD_Category.jsx";
-import CrudUsers from "./pages/admin/Admin-Crud-Users.jsx";
+import CrudUsers from "./pages/admin/Admin-CRUD-Users.jsx";
 import List_Products from "./pages/admin/Admin_List_Products.jsx";
 import SingleProductUpdate from "./pages/admin/Admin_Single_Product_Update.jsx";
 import SingleProductViewDetails from "./pages/admin/Single_Product_ViewDetails.jsx";
 import CrudOrdrs from "./pages/admin/Admin-CRUD-UserOrders.jsx";
+import UserOrdersPage from "./pages/user/User-Orders.jsx";
+import UserUpdateProfile from "./pages/user/User_Update_Profile.jsx";
+import UserProfile from "./pages/user/User_Profile.jsx";
 
 export default function App() {
   return (
@@ -45,14 +46,16 @@ export default function App() {
       <Route path="/dashboard/admin/users" element={<CrudUsers />} />
       <Route path="/dashboard/admin/users-orders" element={<CrudOrdrs />} />
       {/* USER */}
-      <Route path="/dashboard/user" element={<UserDashboardPage />} />
+  
       {/* Common Pages */}
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/policy" element={<PolicyPage />} />
-      <Route path="/profile" element={<Profile />} />
+      <Route path="/profile" element={<UserProfile />} />
+      <Route path="/update-profile" element={<UserUpdateProfile />} />
       <Route path="/cart" element={<CartPage />} />
+      <Route path="/orders" element={<UserOrdersPage />} />
       {/* Authantication */}
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />

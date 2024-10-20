@@ -8,10 +8,10 @@ import Footer from "./Footer";
 
 export default function Layout({
   children,
-  title = "Ecommerce App - Shop Now",
-  description = "MERN stack project providing a seamless shopping experience.",
+  title = "Online E-commerce Store | Shop Now",
+  description = "MERN Ecommerce project providing an Online Store for seamless shopping experience.",
   keywords = "mern, react, node, mongodb, ecommerce, online shopping, shop now",
-  author = "Techinfoyt",
+  author = "MOHAMED LAAGUILI | Web Developer",
   favicon = "/path-to-your/favicon.ico",
   ogImage = "https://yourwebsite.com/path-to-image.jpg",
 }) {
@@ -48,26 +48,23 @@ export default function Layout({
 
         {/* External Styles and Scripts */}
         <link
+        defer
           href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"
           rel="stylesheet"
         />
-        <link
-          rel="stylesheet"
-          href="https://unicons.iconscout.com/release/v4.0.8/css/line.css"
-        />
         <script
-          async src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"
+          defer src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"
         />
       </Helmet>
 
       <Header />
 
-      <Toaster />
 
       <main
         style={{ minHeight: "79.5vh" }}
         className="bg-gray-100 dark:bg-gray-800 transition-colors duration-500"
       >
+      <Toaster />
         {children}
       </main>
 

@@ -6,7 +6,7 @@ import axios from "axios";
 import { Select } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/auth";
-import Spinner from "../../components/Spinner";
+import SpinnerRedirect from "../../components/SpinnerRedirect";
 
 const { Option } = Select;
 
@@ -94,9 +94,9 @@ const SingleProductUpdate = () => {
 
  
   if (!auth.user) {
-    return <Spinner message={"Must be Logged in to access this ressource"} />;
+    return <SpinnerRedirect message={"Must be Logged in to access this ressource"} />;
   } else if (auth.user.isAdmin !== 1) {
-    return <Spinner message={"Must be an Admin to access this ressource"} />;
+    return <SpinnerRedirect message={"Must be an Admin to access this ressource"} />;
   }
 
   return (

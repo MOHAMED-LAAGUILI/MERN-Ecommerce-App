@@ -17,6 +17,7 @@
     "@lottiefiles/dotlottie-react": "^0.9.1",
     "bcrypt": "^5.1.1",
     "colors": "^1.4.0",
+    "compression": "^1.7.4",
     "concurrently": "^9.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -35,4 +36,3 @@
     "@types/express": "^5.0.0"
   }
 }
-

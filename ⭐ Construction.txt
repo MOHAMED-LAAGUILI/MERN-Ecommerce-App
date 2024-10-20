@@ -107,3 +107,7 @@ slugify('BAR and baz', {separator: ''}); // barandbaz
 
 npm i express-formidable
 is a node js module that support and handle form submiting images/ multipart files
+
+
+for imrprove app performance by compressing text and imported css and js
+npm i compression

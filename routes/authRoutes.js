@@ -3,7 +3,8 @@ import {
   registerUserController,
   testController,
   loginUserController,
-  forgotPasswordController
+  forgotPasswordController,
+  updateProfileController
 } from "./../controllers/authController.js";
 
 import {requireSignin, CheckAdmin}  from '../middlewares/authMiddleware.js';
@@ -27,5 +28,7 @@ router.post('/forgot-password',forgotPasswordController)
 // test route
 router.get("/test", requireSignin, CheckAdmin, testController);
 
+//Update Profile
+router.put("/update-profile", requireSignin, updateProfileController);
 
 export default router;

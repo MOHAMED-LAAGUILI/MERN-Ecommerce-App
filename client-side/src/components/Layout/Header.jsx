@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from "react";
-import { DarkThemeToggle } from "flowbite-react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import { useCart } from "../../context/cart";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import {  FaCartPlus, FaInfo, FaAt, FaFileAlt, FaHome, FaArrowCircleDown, FaSignInAlt, FaLockOpen, FaUser, FaSignOutAlt, FaClipboard } from "react-icons/fa";
+import {  FaCartPlus, FaInfo, FaAt, FaFileAlt, FaHome, FaArrowCircleDown, FaSignInAlt, FaLockOpen, FaUser, FaSignOutAlt, FaClipboard, FaUserPlus } from "react-icons/fa";
 import { Badge } from 'antd';
+import ThemeToggle from "../ThemeToggle";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,7 +59,7 @@ export default function Header() {
       </NavLink>
   
       {/* Center Menu for large/medium screens */}
-      <div className="hidden md:flex flex-grow justify-center space-x-1">
+      <div className="font-bold hidden md:flex flex-grow justify-center space-x-1">
         {['/', '/about', '/contact', '/policy'].map((path, index) => (
           <NavLink key={index} to={path} className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700 transition duration-200" onClick={closeMenu}>
             {index === 0 && <FaHome className="text-orange-500 inline-block" />}
@@ -92,7 +92,7 @@ export default function Header() {
                   </NavLink>
                   <hr />
                   <NavLink to="/register" className="block px-4 py-2 text-gray-900 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700 transition duration-200" onClick={(e) => e.stopPropagation()}>
-                    <FaUser Plus className="text-orange-500 inline-block" /> Register
+                    <FaUserPlus className="text-orange-500 inline-block" /> Register
                   </NavLink>
                   <hr />
                   <NavLink to="/forgot-password" className="block px-4 py-2 text-gray-900 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700 transition duration-200" onClick={(e) => e.stopPropagation()}>
@@ -118,7 +118,7 @@ export default function Header() {
           )}
         </div>
   
-        <DarkThemeToggle className="mx-2" />
+        <ThemeToggle />
       </div>
   
       {/* Center Menu for small screens */}
