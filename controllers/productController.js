@@ -1,6 +1,18 @@
+import braintree from "braintree";
 import productModel from "../models/productModel.js";
 import fs from "fs";
 import slugify from "slugify";
+import orderModel from "../models/orderModel.js";
+import dotenv from "dotenv";
+
+dotenv.config();
+/// Payment Gateway
+var gateway = new braintree.BraintreeGateway({
+  environment: braintree.Environment.Sandbox,
+  merchantId: process.env.BRAINTREE_MERCHANT_ID,
+  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+  privateKey: process.env.BRAINTREE_PRIVATE_KEY,
+});
 
 // Create Product Controller
 export const createProductController = async (req, res) => {
@@ -9,44 +21,52 @@ export const createProductController = async (req, res) => {
       req.fields;
     const { image } = req.files;
 
- // Validation
-switch (true) {
-  case !name:
-    return res.status(400).send({ error: "Name is required." });
-  case name.length < 3: // Check if name is at least 3 characters long
-    return res.status(400).send({ error: "Name must be at least 3 characters long." });
-  
-  case !description:
-    return res.status(400).send({ error: "Description is required." });
-  case description.length < 10: // Check if description is at least 10 characters long
-    return res.status(400).send({ error: "Description must be at least 10 characters long." });
+    // Validation
+    switch (true) {
+      case !name:
+        return res.status(400).send({ error: "Name is required." });
+      case name.length < 3: // Check if name is at least 3 characters long
+        return res
+          .status(400)
+          .send({ error: "Name must be at least 3 characters long." });
 
-  case !price:
-    return res.status(400).send({ error: "Price is required." });
-  case isNaN(price): // Check if price is a number
-    return res.status(400).send({ error: "Price must be a valid number." });
-  case price <= 0: // Ensure price is greater than zero
-    return res.status(400).send({ error: "Price must be greater than zero." });
+      case !description:
+        return res.status(400).send({ error: "Description is required." });
+      case description.length < 10: // Check if description is at least 10 characters long
+        return res
+          .status(400)
+          .send({ error: "Description must be at least 10 characters long." });
 
-  case !category:
-    return res.status(400).send({ error: "Category is required." });
-  
-  case !quantity:
-    return res.status(400).send({ error: "Quantity is required." });
-  case isNaN(quantity): // Check if quantity is a number
-    return res.status(400).send({ error: "Quantity must be a valid number." });
-  case quantity < 0: // Ensure quantity is not negative
-    return res.status(400).send({ error: "Quantity cannot be negative." });
+      case !price:
+        return res.status(400).send({ error: "Price is required." });
+      case isNaN(price): // Check if price is a number
+        return res.status(400).send({ error: "Price must be a valid number." });
+      case price <= 0: // Ensure price is greater than zero
+        return res
+          .status(400)
+          .send({ error: "Price must be greater than zero." });
 
-  case !image: // Check if the image is provided
-    return res.status(400).send({ error: "Image is required." });
-  case image && image.size > 1000000: // Check image size
-    return res.status(400).send({
-      error: "Image should be less than 1 MegaByte.",
-    });
+      case !category:
+        return res.status(400).send({ error: "Category is required." });
 
-  // You can add more validation cases here as needed
-}
+      case !quantity:
+        return res.status(400).send({ error: "Quantity is required." });
+      case isNaN(quantity): // Check if quantity is a number
+        return res
+          .status(400)
+          .send({ error: "Quantity must be a valid number." });
+      case quantity < 0: // Ensure quantity is not negative
+        return res.status(400).send({ error: "Quantity cannot be negative." });
+
+      case !image: // Check if the image is provided
+        return res.status(400).send({ error: "Image is required." });
+      case image && image.size > 1000000: // Check image size
+        return res.status(400).send({
+          error: "Image should be less than 1 MegaByte.",
+        });
+
+      // You can add more validation cases here as needed
+    }
 
     // create product
     const product = new productModel({ ...req.fields, slug: slugify(name) });
@@ -162,7 +182,6 @@ export const getSimilarProductsController = async (req, res) => {
   }
 };
 
-
 // get product Image
 export const productImageController = async (req, res) => {
   try {
@@ -170,10 +189,9 @@ export const productImageController = async (req, res) => {
       .findById(req.params.pid)
       .select("image");
     if (productImage.image.data) {
-        res.set("Content-type", productImage.image.contentType)
+      res.set("Content-type", productImage.image.contentType);
       return res.status(200).send(productImage.image.data);
     }
-   
   } catch (error) {
     console.error(`Error fetching single product: ${error}`);
     res.status(500).send({
@@ -211,55 +229,110 @@ export const deleteProductController = async (req, res) => {
   }
 };
 
-
 // update product controller
 export const updateProductController = async (req, res) => {
-    try {
-        const { name, slug, description, price, category, quantity, shipping } =
-        req.fields;
-      const { image } = req.files;
-  
-      // validation
-      switch (true) {
-        case !name:
-          return res.status(500).send({ error: "name is required" });
-        case !description:
-          return res.status(500).send({ error: "description is required" });
-        case !price:
-          return res.status(500).send({ error: "price is required" });
-        case !category:
-          return res.status(500).send({ error: "category is required" });
-        case !quantity:
-          return res.status(500).send({ error: "quantity is required" });
-        case image && image.size > 1000000:
-          return res.status(500).send({
-            error: "Image is required and should be less tha 1 MegaByte",
-          });
-        //   default: break;
-      }
-      //update product
-      const pid = req.params.pid;
-      const product = await productModel.findByIdAndUpdate(pid, {...req.fields, slug:slugify(name)}, {new : true})  
-      if (image) {
-        product.image.data = fs.readFileSync(image.path);
-        product.image.contentType = image.type;
-      }
-  
-      await product.save();
-      res.status(201).send({
-        success: true,
-        message: "Product updated successfully",
-        data: product,
-      });
-  
-    } catch (error) {
-        console.error(
-            `Error Updating Product in [updateProductController] ${error} Error ${error.message}`
-          );
-          res.status(500).send({
-            success: false,
-            message: `Error Updating Product in [updateProductController] ${error} Error ${error.message}`,
-            error,
-          });
+  try {
+    const { name, slug, description, price, category, quantity, shipping } =
+      req.fields;
+    const { image } = req.files;
+
+    // validation
+    switch (true) {
+      case !name:
+        return res.status(500).send({ error: "name is required" });
+      case !description:
+        return res.status(500).send({ error: "description is required" });
+      case !price:
+        return res.status(500).send({ error: "price is required" });
+      case !category:
+        return res.status(500).send({ error: "category is required" });
+      case !quantity:
+        return res.status(500).send({ error: "quantity is required" });
+      case image && image.size > 1000000:
+        return res.status(500).send({
+          error: "Image is required and should be less tha 1 MegaByte",
+        });
+      //   default: break;
     }
-}
+    //update product
+    const pid = req.params.pid;
+    const product = await productModel.findByIdAndUpdate(
+      pid,
+      { ...req.fields, slug: slugify(name) },
+      { new: true }
+    );
+    if (image) {
+      product.image.data = fs.readFileSync(image.path);
+      product.image.contentType = image.type;
+    }
+
+    await product.save();
+    res.status(201).send({
+      success: true,
+      message: "Product updated successfully",
+      data: product,
+    });
+  } catch (error) {
+    console.error(
+      `Error Updating Product in [updateProductController] ${error} Error ${error.message}`
+    );
+    res.status(500).send({
+      success: false,
+      message: `Error Updating Product in [updateProductController] ${error} Error ${error.message}`,
+      error,
+    });
+  }
+};
+
+//////////// Braintree payment gateway API/////////////////
+//Token
+export const braintreeTokenController = async (req, res) => {
+  try {
+    gateway.clientToken.generate({}, function (err, response) {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.send(response);
+        // res.send(response.clientToken)
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Payment
+export const braintreePaymentController = async (req, res) => {
+  try {
+    const { cart, nonce } = req.body;
+    let total = 0;
+    cart.forEach((item) => {
+      total += item.price;
+    });
+
+    let newTransaction = gateway.transaction.sale(
+      {
+        amount: total,
+        paymentMethodNonce: nonce,
+        options: {
+          // storeInVaultOnSuccess: true,
+          submitForSettlement: true,
+        },
+      },
+      function (error, result) {
+        if (result) {
+          const order = new orderModel({
+            products: cart,
+            payment: result,
+            buyer: req.user._id,
+          }).save();
+          res.send({ success: true, message: "Order Created Successfully" });
+        } else {
+          res.status(500).send(error);
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -4,6 +4,7 @@ import JWT from "jsonwebtoken";
 import { comparePassword } from "../helpers/authHelper.js";
 import userModel from "../models/userModel.js";
 import { hashPassword } from "../helpers/authHelper.js";
+import orderModel from "../models/orderModel.js";
 
 //Register Controller
 export const registerUserController = async (req, res) => {
@@ -145,19 +146,19 @@ export const testController = async (req, res) => {
   } catch (error) {
     console.error(`Error while testing protected route : ${error.message}`.red);
     res.send("Error while testing protected route");
- res.json({ user: req.user });
-  
+    res.json({ user: req.user });
   }
 };
-
 
 // updateProfileController
 export const updateProfileController = async (req, res) => {
   try {
     // Validate token format
     const token = req.headers.authorization;
-    if (!token || !token.startsWith('Bearer ')) {
-      return res.status(401).json({ success: false, message: "Token format invalid" });
+    if (!token || !token.startsWith("Bearer ")) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Token format invalid" });
     }
 
     // Log request body and user
@@ -166,7 +167,9 @@ export const updateProfileController = async (req, res) => {
 
     // Validate request body
     if (!req.body || !req.body.username || !req.body.phone) {
-      return res.status(400).json({ success: false, message: "Missing required fields" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing required fields" });
     }
 
     const { username, phone, street, city, state, zip } = req.body;
@@ -174,42 +177,66 @@ export const updateProfileController = async (req, res) => {
 
     // Validate user ID
     if (!userId) {
-      return res.status(400).json({ success: false, message: "User  ID is undefined" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User  ID is undefined" });
     }
 
     console.log("Updating user with ID:", userId);
     console.log("Update data:", { username, phone, street, city, state, zip });
 
     // Update user in the database
-    const updatedUser  = await userModel.findByIdAndUpdate(
+    const updatedUser = await userModel.findByIdAndUpdate(
       userId,
       { username, phone, street, city, state, zip },
       { new: true }
     );
 
-    if (!updatedUser ) {
+    if (!updatedUser) {
       console.log("User  update failed for ID:", userId);
       return res.status(500).json({
         success: false,
-        message: "Failed to update user"
+        message: "Failed to update user",
       });
     }
 
-    console.log("User  updated successfully:", updatedUser );
+    console.log("User  updated successfully:", updatedUser);
 
     // Respond with updated user data
     res.json({
       success: true,
       message: "Profile updated successfully",
-      user: updatedUser 
+      user: updatedUser,
     });
-
   } catch (error) {
-    console.error("Profile update error:", error.stack);
+    console.error(
+      `Error while updating profile in [updateProfileController] ${error}`,
+      error.stack
+    );
     res.status(500).json({
       success: false,
-      message: "Error in profile update",
-      error: error.message
+      message: `Error while updating profile in [updateProfileController] ${error}`,
+      error: error.message,
     });
+  }
+};
+
+
+// get user orders controller
+export const getUserOrdersController = async (req, res) => {
+  try {
+    const orders = await orderModel.find({ buyer: req.user._id }) // Use 'Orders' to reference the model
+      .populate("products") // Populate if needed
+      .populate("buyer", "username")
+      .exec();
+
+    if (!orders.length) {
+      return res.status(404).json({ message: "No orders found." });
+    }
+
+    res.json(orders);
+  } catch (error) {
+    console.error("Error while getting orders:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };

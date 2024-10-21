@@ -52,4 +52,15 @@ npm i react-icons/fa
 <FaMoneyBillWave className="text-orange-500 inline-block" /> Price Range
              
 
+to integrate the Payment view in react
+https://www.youtube.com/watch?v=QyunIFPa2rI&ab_channel=TechinfoYT
+https://www.npmjs.com/package/braintree-web-drop-in-react
+npm i braintree-web-drop-in-react
 
+
+
+A JavaScript date library for parsing, validating, manipulating, and formatting dates.
+npm i moment
+20min ago
+
+npm install  react-select react-switch 

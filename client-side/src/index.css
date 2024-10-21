@@ -30,13 +30,22 @@
 }
 
 
-.flex-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+
+
+/* Default theme */
+html[data-theme='light'] {
+  --bg-color: white;
+  --text-color: black;
 }
 
-.product {
-  flex-basis: 200px;
-  margin: 10px;
+/* Dark theme */
+html[data-theme='dark'] {
+  --bg-color: black;
+  --text-color: white;
+}
+
+/* Apply these CSS variables in your components */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }

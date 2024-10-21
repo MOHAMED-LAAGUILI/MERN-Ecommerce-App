@@ -14,8 +14,8 @@
   "license": "MIT",
   "description": "",
   "dependencies": {
-    "@lottiefiles/dotlottie-react": "^0.9.1",
     "bcrypt": "^5.1.1",
+    "braintree": "^3.25.0",
     "colors": "^1.4.0",
     "compression": "^1.7.4",
     "concurrently": "^9.0.1",

@@ -111,3 +111,10 @@ is a node js module that support and handle form submiting images/ multipart fil
 
 for imrprove app performance by compressing text and imported css and js
 npm i compression
+
+
+to integrate paypale payment
+check npm officaial site for how to doso or see youtube link
+https://www.youtube.com/watch?v=QyunIFPa2rI&ab_channel=TechinfoYT
+https://npmjs.com/package/braintree
+ npm i braintree

@@ -48,26 +48,29 @@ export default function Layout({
 
         {/* External Styles and Scripts */}
         <link
-        defer
+          defer
           href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"
           rel="stylesheet"
         />
         <script
-          defer src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"
+          defer
+          src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"
         />
       </Helmet>
 
+      {/* Header */}
       <Header />
 
-
+      {/* Main Content */}
       <main
         style={{ minHeight: "79.5vh" }}
         className="bg-gray-100 dark:bg-gray-800 transition-colors duration-500"
       >
-      <Toaster />
+        <Toaster />
         {children}
       </main>
 
+      {/* Footer */}
       <Footer />
     </HelmetProvider>
   );

@@ -7,7 +7,9 @@ import {
     getSimilarProductsController,
     productImageController,
     deleteProductController,
-    updateProductController
+    updateProductController,
+    braintreeTokenController,
+    braintreePaymentController
  } from "../controllers/productController.js";
 
 import formidable from "formidable";
@@ -68,7 +70,11 @@ router.get("/product-photo/:pid", productImageController);
 // delete product
 router.delete("/delete-product/:pid", requireSignin, CheckAdmin, deleteProductController);
 
-/*
+//////////Payement Routes
+//Token
+router.get("/braintree/token", braintreeTokenController)
 
-*/
+//payement
+router.post("/braintree/payment", requireSignin ,braintreePaymentController);
+
 export default router;

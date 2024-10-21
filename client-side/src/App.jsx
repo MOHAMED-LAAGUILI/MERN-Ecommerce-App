@@ -46,7 +46,7 @@ export default function App() {
       <Route path="/dashboard/admin/users" element={<CrudUsers />} />
       <Route path="/dashboard/admin/users-orders" element={<CrudOrdrs />} />
       {/* USER */}
-  
+
       {/* Common Pages */}
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
@@ -55,7 +55,7 @@ export default function App() {
       <Route path="/profile" element={<UserProfile />} />
       <Route path="/update-profile" element={<UserUpdateProfile />} />
       <Route path="/cart" element={<CartPage />} />
-      <Route path="/orders" element={<UserOrdersPage />} />
+      <Route path="/user-orders" element={<UserOrdersPage />} />
       {/* Authantication */}
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />

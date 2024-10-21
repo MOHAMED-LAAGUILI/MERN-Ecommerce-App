@@ -66,11 +66,12 @@ const UserUpdateProfile = () => {
   };
 
   return (
-    <Layout>
+    <Layout title='user update'>
       <div className="flex flex-col md:flex-row">
         {/* Sidebar */}
+        <aside className="dark:bg-gray-900 dark:text-gray-100 bg-white text-gray-900 w-full md:w-64 h-auto md:h-screen p-4 shadow-lg md:sticky md:top-0 overflow-hidden">
         <UserProfileDashboard />
-      
+      </aside>
 
         {/* Main Content */}
         <main className="flex-1 p-6 bg-gray-100">

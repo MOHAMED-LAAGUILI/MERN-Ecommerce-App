@@ -33,7 +33,7 @@ const Home = () => {
     let filtered = [...products];
     if (selectedCategory && selectedCategory !== "all") {
       filtered = filtered.filter(
-        (product) => product.category._id === selectedCategory
+        (product) => product.category && product.category._id === selectedCategory
       );
     }
     filtered = filtered.filter((product) => product.price <= priceRange);
@@ -50,6 +50,7 @@ const Home = () => {
     setFilteredProducts(filtered);
     setCurrentPage(1);
   };
+  
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);

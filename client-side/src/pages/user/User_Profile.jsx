@@ -3,7 +3,6 @@ import Layout from "../../components/Layout/Layout";
 import { useAuth } from "../../context/auth";
 import UserProfileDashboard from "./User_Profile_Dashboard";
 import { FaLockOpen, FaPhone } from 'react-icons/fa';
-import ThemeToggle from './../../components/ThemeToggle';
 
 
 const UserProfile = () => {
@@ -27,12 +26,13 @@ const UserProfile = () => {
     <Layout>
       <div className={`flex flex-col md:flex-row `}>
         {/* Sidebar */}
+        <aside className="dark:bg-gray-900 dark:text-gray-100 bg-white text-gray-900 w-full md:w-64 h-auto md:h-screen p-4 shadow-lg md:sticky md:top-0 overflow-hidden">
         <UserProfileDashboard />
+      </aside>
         {/* Main Content */}
         <main className="flex-1 p-6 dark:bg-gray-800  dark:text-white">
-        <ThemeToggle />
           <div className="flex justify-between items-center mb-4 ">
-            <h1 className="text-2xl font-semibold">Update Profile</h1>
+            <h1 className="text-2xl font-semibold">Profile</h1>
     
           </div>
 
