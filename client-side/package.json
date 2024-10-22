@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@lottiefiles/dotlottie-react": "^0.9.1",
     "antd": "^5.21.4",
     "axios": "^1.7.7",
     "braintree-web-drop-in-react": "^1.2.1",

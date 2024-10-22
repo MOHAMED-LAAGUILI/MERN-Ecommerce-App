@@ -225,18 +225,68 @@ export const updateProfileController = async (req, res) => {
 // get user orders controller
 export const getUserOrdersController = async (req, res) => {
   try {
-    const orders = await orderModel.find({ buyer: req.user._id }) // Use 'Orders' to reference the model
-      .populate("products") // Populate if needed
-      .populate("buyer", "username")
+    // Get user ID from the request parameters
+    const userId = req.params.userId; 
+
+    // Find orders associated with the user ID
+    const orders = await orderModel.find({ buyer: userId }) // Ensure 'buyer' refers to the user ID
+      .populate("products") // Populate products if needed
+      .populate("buyer", "username") // Populate buyer with only the username field
       .exec();
 
+    // Check if no orders were found
     if (!orders.length) {
       return res.status(404).json({ message: "No orders found." });
     }
 
+    // Return the found orders
     res.json(orders);
   } catch (error) {
     console.error("Error while getting orders:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+
+
+// Get all users' orders controller
+export const getAllUsersOrdersController = async (req, res) => {
+  try {
+    const orders = await orderModel
+      .find({})
+      .populate("products") // Populating product references if required
+      .populate("buyer", "username")
+      .sort({ createdAt: -1 }) // Populating buyer with only the username field
+      .exec();
+
+      if (!orders.length) {
+        return res.status(404).json({ message: "No orders found." });
+      }
+    res.json(orders); // Send the fetched orders as the response
+  } catch (error) {
+    console.error("Error while getting orders:", error);
+    res.status(500).json({ message: `Server error while fetching orders.${error}` });
+  }
+};
+
+
+
+// updateOrderStatusController
+export const updateOrderStatusController = async (req, res) => {
+  try {
+    const {orderId} = req.params
+  const {status} = req.body
+  
+  const order = await orderModel.findByIdAndUpdate(orderId,{status},{new:true})
+  if(order){
+    res.send({success:true,message:"Order status updated successfully", order})
+    } else {
+      res.status(404).send({success:false,message:"Order not found"})
+      }
+  
+  
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({success:false, message:`Error on [updateOrderStatusController] ${error}`});
+  }
+  };

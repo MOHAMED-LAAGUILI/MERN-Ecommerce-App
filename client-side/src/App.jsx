@@ -4,7 +4,7 @@ import HomePage from "./pages/user/HomePage.jsx";
 import AboutPage from "./pages/user/AboutPage.jsx";
 import ContactPage from "./pages/user/ContactPage";
 import PolicyPage from "./pages/user/PolicyPage.jsx";
-import Page404 from "./pages/user/Page-404.jsx";
+import Page404 from "./pages/user/Page_404.jsx";
 import Register from "./pages/Auth/Register.jsx";
 import Login from "./pages/Auth/Login.jsx";
 import CartPage from "./pages/user/CartPage.jsx";
@@ -16,8 +16,8 @@ import CrudUsers from "./pages/admin/Admin-CRUD-Users.jsx";
 import List_Products from "./pages/admin/Admin_List_Products.jsx";
 import SingleProductUpdate from "./pages/admin/Admin_Single_Product_Update.jsx";
 import SingleProductViewDetails from "./pages/admin/Single_Product_ViewDetails.jsx";
-import CrudOrdrs from "./pages/admin/Admin-CRUD-UserOrders.jsx";
-import UserOrdersPage from "./pages/user/User-Orders.jsx";
+import AdminOrders from "./pages/admin/Admin-CRUD-UserOrders.jsx";
+import UserOrdersPage from "./pages/user/User_Orders.jsx";
 import UserUpdateProfile from "./pages/user/User_Update_Profile.jsx";
 import UserProfile from "./pages/user/User_Profile.jsx";
 
@@ -44,7 +44,7 @@ export default function App() {
       />
       <Route path="/product/:slug" element={<SingleProductViewDetails />} />
       <Route path="/dashboard/admin/users" element={<CrudUsers />} />
-      <Route path="/dashboard/admin/users-orders" element={<CrudOrdrs />} />
+      <Route path="/dashboard/admin/users-orders" element={<AdminOrders />} />
       {/* USER */}
 
       {/* Common Pages */}

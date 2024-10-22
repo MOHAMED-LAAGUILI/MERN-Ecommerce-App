@@ -304,10 +304,10 @@ export const braintreeTokenController = async (req, res) => {
 // Payment
 export const braintreePaymentController = async (req, res) => {
   try {
-    const { cart, nonce } = req.body;
+    const { cart, nonce, shipping } = req.body; // Add shipping to the destructured object
     let total = 0;
     cart.forEach((item) => {
-      total += item.price;
+      total += item.price * item.quantity; // Calculate total based on quantity
     });
 
     let newTransaction = gateway.transaction.sale(
@@ -315,17 +315,18 @@ export const braintreePaymentController = async (req, res) => {
         amount: total,
         paymentMethodNonce: nonce,
         options: {
-          // storeInVaultOnSuccess: true,
           submitForSettlement: true,
         },
       },
-      function (error, result) {
+      async (error, result) => {
         if (result) {
-          const order = new orderModel({
-            products: cart,
+          // Create the order with shipping details
+          const order = await orderModel.create({
+            products: cart.map(item => item._id), // Ensure you're storing product IDs
             payment: result,
             buyer: req.user._id,
-          }).save();
+            shipping: shipping, // Include the shipping details
+          });
           res.send({ success: true, message: "Order Created Successfully" });
         } else {
           res.status(500).send(error);
@@ -334,5 +335,8 @@ export const braintreePaymentController = async (req, res) => {
     );
   } catch (error) {
     console.log(error);
+    res.status(500).send("Payment processing error");
   }
 };
+
+

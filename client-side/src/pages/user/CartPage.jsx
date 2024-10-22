@@ -61,17 +61,27 @@ export default function CartPage() {
   }, [auth?.token]);
 
   ///////////////// handlePayment
-
   const handlePayment = async () => {
+    setLoading(true); // Set loading to true when payment starts
     try {
       const { nonce } = await instance.requestPaymentMethod();
+  
       const { data } = await axios.post(
         `${apiUrl}/api/v1/product/braintree/payment`,
         {
           nonce,
           cart,
+          // Include shipping information
+          shipping: {
+            address: auth.user.street,
+            city: auth.user.city,
+            state: auth.user.state,
+            zip: auth.user.zip,
+            phone: auth.user.phone,
+          },
         }
       );
+  
       setLoading(false);
       localStorage.removeItem("cart");
       setCart([]);
@@ -82,6 +92,7 @@ export default function CartPage() {
       setLoading(false);
     }
   };
+  
   return (
     <Layout title={"Shopping Cart"}>
       <div className="max-w-screen-xl mx-auto p-6 bg-white rounded-lg shadow-lg">

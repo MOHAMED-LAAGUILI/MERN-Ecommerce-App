@@ -5,11 +5,11 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom"; // Add Link for navigation
 import { useState} from "react";
 import { useAuth } from "../../context/auth";
+const apiUrl = import.meta.env.REACT_APP_API;
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
-  const apiUrl = import.meta.env.REACT_APP_API;
-  const [loading, setLoading] = useState(false);
+  const [loading,setLoading] = useState(false);
   const [auth] = useAuth();
 
   const {
@@ -65,7 +65,7 @@ export default function ForgotPassword() {
             {/* Email Field */}
             <div className="mb-4">
               <label
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                className="font-bold block text-sm text-gray-700 dark:text-gray-300"
                 htmlFor="email"
               >
                 Email
@@ -95,10 +95,10 @@ export default function ForgotPassword() {
             {/* Answer Field */}
             <div className="mb-4">
               <label
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                className="block text-sm font-bold text-gray-700 dark:text-gray-300"
                 htmlFor="answer"
               >
-                What was your favorite sport ?
+                What was your secret recovery phrase ?
               </label>
               <input
                 autoComplete
@@ -125,7 +125,7 @@ export default function ForgotPassword() {
             {/* Password Field */}
             <div className="mb-4">
               <label
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                className="block text-sm font-bold text-gray-700 dark:text-gray-300"
                 htmlFor="newPassword"
               >
                 New Password
@@ -194,7 +194,7 @@ export default function ForgotPassword() {
      to="/profile"
      className="text-blue-600 font-bold  hover:underline dark:text-blue-400"
    >
-    <i className="uil uil-backward"></i> Back to Profile
+    ◀️ Back to Profile
    </Link>
  </span>
 </div>

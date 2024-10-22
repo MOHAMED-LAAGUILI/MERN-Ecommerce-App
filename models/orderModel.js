@@ -8,15 +8,22 @@ const orderSchema = new mongoose.Schema(
         ref: "Products",
       },
     ],
-    payment: {}, // Typo fixed: "payement" to "payment"
+    payment: {}, // Payment details can be stored here
     buyer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Users",
     },
     status: {
       type: String,
-      default: "Not process", // Correct default value
-      enum: ["Not process", "Processing", "Shipped", "delivered", "cancel"],
+      default: "Not processed", // Correct default value
+      enum: ["Not processed", "Processing", "Shipped", "Delivered", "Cancelled"],
+    },
+    shipping: {
+      address: { type: String, required: true }, // Required shipping address
+      city: { type: String, required: true }, // Required city
+      state: { type: String, required: true }, // Required state
+      zip: { type: String, required: true }, // Required ZIP code
+      phone: { type: String, required: true }, // Required phone number
     },
   },
   { timestamps: true }

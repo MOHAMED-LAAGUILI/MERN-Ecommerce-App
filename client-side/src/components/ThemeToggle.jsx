@@ -12,6 +12,24 @@ const ThemeToggle = () => {
     localStorage.setItem("theme", isDarkMode ? "dark" : "light");
   }, [isDarkMode]);
 
+
+  function ThemeTogglerBtn0() {
+    return (
+      <button
+        onClick={() => setIsDarkMode((prev) => !prev)}
+        className="p-2 bg-gray-700 text-1xl rounded-full"
+      >
+        {isDarkMode ? (
+          <span className="text-2xl">⚪🌞</span>
+          
+        ) : (
+          <span className="text-2xl">🌛⚫</span>
+        )}
+      </button>
+    );
+  }
+  
+  //eslint-disable-next-line
   function ThemeTogglerBtn1() {
     return (
       <button
@@ -52,7 +70,8 @@ const ThemeToggle = () => {
 
   return (
     <>
-      { ThemeTogglerBtn1() }
+      { ThemeTogglerBtn0() }
+     {/* ThemeTogglerBtn1() */}
       {/* ThemeTogglerBtn2() */}
       {/* ThemeTogglerBtn3() */}
     </>

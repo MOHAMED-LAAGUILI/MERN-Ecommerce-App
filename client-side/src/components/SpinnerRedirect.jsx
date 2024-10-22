@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import PropTypes from "prop-types";
 
 export default function SpinnerRedirect({message}) {
@@ -23,7 +23,7 @@ export default function SpinnerRedirect({message}) {
   }, [navigate]);
 
   return (
-    <>
+    <HelmetProvider>
         <Helmet>
         <meta charSet="utf-8" />
         <title>Redirecting....</title>
@@ -66,7 +66,7 @@ export default function SpinnerRedirect({message}) {
         }
       `}</style>
     </div>
-          </>
+          </HelmetProvider>
   );
 }
 
