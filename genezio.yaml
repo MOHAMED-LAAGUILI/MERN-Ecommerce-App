@@ -1,0 +1,10 @@
+frontend:
+    path: .
+    publish: dist
+    scripts:
+        build: npm run build
+        deploy: npm install
+    subdomain: MERN-Ecommerce-App
+name: MERN-Ecommerce-App
+region: us-east-1
+yamlVersion: 2
