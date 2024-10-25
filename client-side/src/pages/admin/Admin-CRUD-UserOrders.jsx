@@ -1,22 +1,21 @@
 import { useState } from "react";
-
 import AdminMenu from "./Admin-Menu";
 import Layout from "../../components/Layout/Layout";
 import moment from "moment";
 import { Select, Modal, Spin, Alert } from "antd";
-import useGetAllOrders from "../../hooks/Hook_Get_All _Orders";
+
 import axios from "axios";
 import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
 const { Option } = Select;
 const apiUrl = import.meta.env.REACT_APP_API;
-
+import useGetAllOrders from './../../hooks/Hook_Get_All _Orders';
 
 const AdminOrders = () => {
-  const { orders, loading, error } = useGetAllOrders();
+  const { orders, loading, error, refetch } = useGetAllOrders(); // Assuming your hook supports refetch
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-const [auth] = useAuth()
+  const [auth] = useAuth();
   const statusOptions = [
     "Not Processed",
     "Processing",
@@ -38,17 +37,22 @@ const [auth] = useAuth()
     try {
       const { data } = await axios.put(`${apiUrl}/api/v1/auth/update-order-status/${orderId}`, { status: value }, {
         headers: {
-          Authorization: `Bearer ${auth.token}` // Include the token from auth context
+          Authorization: `Bearer ${auth.token}`
         }
       });
-      // Optionally, you can handle the response data here
+      refetch(); // Call refetch after updating status
       toast.success(data.message);
-      return orders; // Return updated order data if needed
     } catch (error) {
       console.error("Error updating order status:", error.response ? error.response.data : error.message);
-      toast.error(`Failed to update order status. ${error}`);
+      if (error.response && error.response.status === 401) {
+        toast.error("Session expired. Please log in again.");
+        // Optionally, redirect to login or log out the user
+      } else {
+        toast.error(`Failed to update order status. ${error.message}`);
+      }
     }
   };
+  
 
   return (
     <Layout title={"All Orders Data"}>
@@ -60,7 +64,7 @@ const [auth] = useAuth()
           <h1 className="text-2xl font-bold mb-4 text-center">All Orders</h1>
           {loading ? (
             <div className="flex justify-center">
-              <Spin size="large" />
+              <Spin delay='4s' fullscreen={true} size="large" />
             </div>
           ) : error ? (
             <Alert message="Error" description={error.message} type="error" />
@@ -81,24 +85,24 @@ const [auth] = useAuth()
                   {orders.map((order) => (
                     <tr key={order._id} className="border-b">
                       <td className="px-4 py-2">{order._id.substring(0, 8)}...</td>
-                      <td className=" px-4 py-2">{order.buyer?.username}</td>
+                      <td className="px-4 py-2">{order.buyer?.username}</td>
                       <td className="px-4 py-2">{moment(order.createdAt).format('MMM D, YYYY')}</td>
                       <td className="px-4 py-2">
                         <Select
                           defaultValue={order.status}
                           style={{ width: 120 }}
                           onChange={(value) => {
-                            setChangeStatus(value,order._id)
+                            setChangeStatus(order._id, value);
                           }}
                         >
-                          {statusOptions.map((status,index) => (
+                          {statusOptions.map((status, index) => (
                             <Option key={index} value={status}>{status}</Option>
                           ))}
                         </Select>
                       </td>
                       <td className="px-4 py-2">
                         <span className={order.payment?.success ? 'text-green-600' : 'text-red-600'}>
-                          {order.payment?.success ? 'Success' :  'Failed'}
+                          {order.payment?.success ? 'Success' : 'Failed'}
                         </span>
                       </td>
                       <td className="px-4 py-2">

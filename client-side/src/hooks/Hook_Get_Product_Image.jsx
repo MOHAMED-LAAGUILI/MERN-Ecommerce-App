@@ -9,13 +9,13 @@ const useProductImage = (productId) => {
     const fetchImage = async () => {
       try {
         const response = await axios.get(`${apiUrl}/api/v1/product/product-photo/${productId}`);
-        setImageUrl(response.data.imageUrl);
+        setImageUrl(response.data.image);
       } catch (error) {
         console.error(error);
       }
     };
     fetchImage();
-  }, [productId]);
+  }, [productId,apiUrl]);
 
   return imageUrl;
 };
