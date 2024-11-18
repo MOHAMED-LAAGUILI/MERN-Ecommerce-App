@@ -23,8 +23,26 @@ connectDB();
 const app = express();
 
 app.use(compression());
-// midelwares
-app.use(cors());
+
+// middlewares
+const allowedOrigins = [
+    "http://localhost:5174",
+    "http://localhost:8000",
+    "http://localhost:8080"
+];
+
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
+
 app.use(express.json());
 app.use(morgan('dev'));
 
