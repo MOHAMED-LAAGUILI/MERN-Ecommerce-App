@@ -28,7 +28,8 @@ app.use(compression());
 const allowedOrigins = [
     "http://localhost:5174",
     "http://localhost:8000",
-    "http://localhost:8080"
+    "http://localhost:8080",
+    "https://mern-ecommerce-app-ten.vercel.app"
 ];
 
 app.use(cors({
